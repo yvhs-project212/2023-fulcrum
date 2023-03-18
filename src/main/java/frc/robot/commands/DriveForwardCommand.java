@@ -6,7 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.NavxSubsystem;
 
 public class DriveForwardCommand extends CommandBase {
@@ -14,12 +16,16 @@ public class DriveForwardCommand extends CommandBase {
 
   DrivetrainSubsystem drivetrainSub;
   NavxSubsystem navxSub;
+  ElevatorSubsystem elevatorSub;
+  ArmSubsystem armSub;
 
-  public DriveForwardCommand(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub) {
+  public DriveForwardCommand(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub, ElevatorSubsystem elevatorSub, ArmSubsystem armSub) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.drivetrainSub = drivetrainSub;
     this.navxSub = navxSub;
+    this.elevatorSub = elevatorSub;
+    this.armSub = armSub;
     addRequirements(drivetrainSub);
   }
 
@@ -27,8 +33,10 @@ public class DriveForwardCommand extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("Starting Drive Forward!");
-    drivetrainSub.gearShiftLow();
+    drivetrainSub.gearShiftHigh();
     drivetrainSub.resetDrivetrainEncoders();
+    elevatorSub.resetElevatorEncoder();
+    armSub.resetArmEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

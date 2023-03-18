@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -46,7 +47,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setArmAngle(double armAngleSetPoint){
-    armMotor.set(Constants.ArmConstants.ARM_kP * (armAngleSetPoint - armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE));
+    double armPIDSpeed = MathUtil.clamp(Constants.ArmConstants.ARM_kP * (armAngleSetPoint - armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE), -0.5, 0.5);
+    armMotor.set(armPIDSpeed);
   }
 
   public void resetArmEncoder(){

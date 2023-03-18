@@ -21,6 +21,7 @@ import frc.robot.commands.AutoCubeShootingCommandGroup;
 import frc.robot.commands.ChargingStationBalancingCmdGroup;
 import frc.robot.commands.ElevatorLiftWithjoystickCommand;
 import frc.robot.commands.NoAutoCommand;
+import frc.robot.commands.SetArmToGroundCommandGroup;
 import frc.robot.commands.SetArmToHumanPlayerCommandGroup;
 import frc.robot.commands.GearShiftHighCommand;
 import frc.robot.commands.GearShiftLowCommand;
@@ -69,13 +70,14 @@ public class RobotContainer {
   private final ArmCommands armWithDPadsCmd = new ArmCommands(arm, -RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_Y_AXIS));
 
   //Autonomous File
-  public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem);
-  public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub);
+  public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem, elevatorSub, arm);
+  public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub, elevatorSub);
   public final Command noAutoComm = new NoAutoCommand(drivetrainSub);
   SendableChooser<Command> autonomouChooser = new SendableChooser<>();
 
   //Quick Arm Setting Files
   public final SetArmToHumanPlayerCommandGroup setArmHumanPlayerCmdGrp = new SetArmToHumanPlayerCommandGroup(elevatorSub, arm);
+  public final SetArmToGroundCommandGroup setArmToGroundCmdGrp = new SetArmToGroundCommandGroup(elevatorSub, arm);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -133,6 +135,8 @@ public class RobotContainer {
     //Set Arm Height to Human Player
     final JoystickButton setArmForHumanPlayer = new JoystickButton(operatorController, XboxController.Button.kY.value);
     setArmForHumanPlayer.whileTrue(setArmHumanPlayerCmdGrp);
+    final JoystickButton setArmToGround = new JoystickButton(operatorController, XboxController.Button.kA.value);
+    setArmToGround.whileTrue(setArmToGroundCmdGrp);
   }
 
   /**

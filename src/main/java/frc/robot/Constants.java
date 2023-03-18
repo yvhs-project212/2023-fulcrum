@@ -65,6 +65,7 @@ public final class Constants {
     
     public static final double AUTONOMOUS_ARM_SETPOINT = -30;
     public static final double SET_ARM_FOR_HUMAN_PLAYER = -90;
+    public static final double SET_ARM_TO_GROUND = -100;
 
     public static final double ARM_MINIMUM_ANGLE = -58;
     public static final double ARM_MAXIMUM_ANGLE = 82;
