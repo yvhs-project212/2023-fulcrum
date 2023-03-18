@@ -42,6 +42,8 @@ public final class Constants {
     public static final double ELEVATOR_BOTTOM_INCHES = 18.75;
     public static final double ELEVATOR_TOP_INCHES = 38.25;
     public static final double ENCODER_PER_INCH = 4801.79;
+
+    public static final double QUICK_ELEVATOR_SET_HEIGHT_SPEED = 0.3;
   }
 
   public static class ClawConstants{
@@ -60,8 +62,9 @@ public final class Constants {
     public static final int ARM_MOTOR = 7;
 
     public static final double ARM_kP = 0.011;
-    ;
-    public static final double AUTONOMOUS_ARM_SETPOINT = 30;
+    
+    public static final double AUTONOMOUS_ARM_SETPOINT = -30;
+    public static final double SET_ARM_FOR_HUMAN_PLAYER = -90;
 
     public static final double ARM_MINIMUM_ANGLE = -58;
     public static final double ARM_MAXIMUM_ANGLE = 82;

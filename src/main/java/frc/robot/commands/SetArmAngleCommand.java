@@ -5,21 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
-public class ElevatorLiftWithjoystickCommand extends CommandBase {
-  /** Creates a new ElevatorCommand. */
+public class SetArmAngleCommand extends CommandBase {
+  /** Creates a new SetArmAngleCommand. */
 
-  ElevatorSubsystem elevatorSub;
-  double elevatorSpeed;
+  ArmSubsystem armSub;
+  double armAngle;
 
-  public ElevatorLiftWithjoystickCommand(ElevatorSubsystem elevatorSub, double elevatorSpeed) {
+  public SetArmAngleCommand(ArmSubsystem armSub, double armAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.elevatorSub = elevatorSub;
-    this.elevatorSpeed = elevatorSpeed;
-    addRequirements(elevatorSub);
+
+    this.armSub = armSub;
+    this.armAngle = armAngle;
+    addRequirements(armSub);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +28,7 @@ public class ElevatorLiftWithjoystickCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevatorSub.elevatorLiftWithJoystick(elevatorSpeed);
+    armSub.setArmAngle(armAngle);
   }
 
   // Called once the command ends or is interrupted.
