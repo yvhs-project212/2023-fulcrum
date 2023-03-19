@@ -27,6 +27,9 @@ public class ElevatorLiftWithjoystickCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(RobotContainer.operatorController.getYButton()){
+      elevatorSub.elevatorLiftWithJoystick(-Constants.ElevatorConstants.AUTO_ELEVATOR_MOTOR_SPEED);
+    }
     elevatorSub.elevatorLiftWithJoystick(RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_Y_AXIS));
   }
 

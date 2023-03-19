@@ -35,6 +35,7 @@ public final class Constants {
 
   public static class ElevatorConstants{
     public static final int ELEVATOR_MOTOR = 6;
+    public static final double AUTO_ELEVATOR_MOTOR_SPEED = 0.4;
 
     public static final int UPPER_ELEVATOR_LIMIT_SWITCH = 0;
     public static final int BOTTOM_ELEVATOR_LIMIT_SWITCH = 1;
@@ -60,8 +61,9 @@ public final class Constants {
     public static final int ARM_MOTOR = 7;
 
     public static final double ARM_kP = 0.011;
-    ;
-    public static final double AUTONOMOUS_ARM_SETPOINT = 30;
+    
+    public static final double AUTONOMOUS_ARM_SETPOINT = -30;
+    public static final double HUMAN_PLAYER_ARM_SETPOINT = -90;
 
     public static final double ARM_MINIMUM_ANGLE = -58;
     public static final double ARM_MAXIMUM_ANGLE = 82;

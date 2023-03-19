@@ -5,11 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -35,8 +34,8 @@ public class ArmSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     armMotorPos = armMotor.getSelectedSensorPosition();
     SmartDashboard.putNumber("ArmPosition", armMotorPos);
-    SmartDashboard.putNumber("ArmDegrees", armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE);
-    armError = Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT + armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE;
+    SmartDashboard.putNumber("ArmDegrees", getArmAngle());
+    armError = Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT + getArmAngle();
     SmartDashboard.putNumber("ArmError", armError);
   
   }
@@ -45,8 +44,12 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.set(armSpeed * 0.5);
   }
 
-  public void setArmAngle(double armAngleSetPoint){
-    armMotor.set(Constants.ArmConstants.ARM_kP * (armAngleSetPoint - armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE));
+  public double getArmAngle(){
+    return (armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE);
+  }
+
+  public void setArmAngleWithPID(double armAngleSetPoint){
+    armMotor.set(Constants.ArmConstants.ARM_kP * (armAngleSetPoint - getArmAngle()));
   }
 
   public void resetArmEncoder(){

@@ -52,6 +52,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("BottomElevatorLimitSwitch", bottomLimitSwitch.get());
     elevatorMotorPos = elevatorMotor.getSelectedSensorPosition();
     SmartDashboard.putNumber("ElevatorMotorPosition", elevatorMotorPos);
+    SmartDashboard.putNumber("ElevatorMotorPositionInch", getElevatorEncoderValueInInch());
   }
 
   //Move elevator by using joystick methods.
@@ -68,5 +69,13 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(elevatorSpeed * 0.4);
       }
     }
+  }
+
+  public double getElevatorEncoderValueInInch(){
+    return (elevatorMotorPos / Constants.ElevatorConstants.ENCODER_PER_INCH);
+  }
+
+  public void resetElevatorEncoderValue(){
+    elevatorMotor.setSelectedSensorPosition(0);
   }
 }
