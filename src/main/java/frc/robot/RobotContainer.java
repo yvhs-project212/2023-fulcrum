@@ -88,7 +88,7 @@ public class RobotContainer {
     autonomouChooser.addOption("Auto Balancing", chargingStationBalancingCmdGrp);
     autonomouChooser.addOption("Auto Cube Shooting", autoCubeShootingCmdGrp);
     autonomouChooser.addOption("Out of community ", OutofCommunityCommand);
-    autonomouChooser.addOption("Turn 180 degrees and leave", TurnAndLeaveCommunityCommand);
+    autonomouChooser.addOption("TurnAndLeaveCommunityCommand", TurnAndLeaveCommunityCommand);
 
     SmartDashboard.putData(autonomouChooser);
 

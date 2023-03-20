@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.NavxSubsystem;
@@ -28,25 +29,33 @@ public class TurnAndLeaveCommunityCommand extends CommandBase {
   public void initialize() {
     System.out.println("out of community command started");
     navxSub.resetGyro();
-    drivetrainSub.turnAndLeaveCommunity = false;
-    drivetrainSub.recentPosition = drivetrainSub.leftTopMotorPos;
+    drivetrainSub.turnAndLeaveCommunity = true;
+    drivetrainSub.recentPosition = drivetrainSub.leftTopMotorPos + 10000;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (navxSub.getYaw() != 180 && drivetrainSub.turnAndLeaveCommunity == false) {
+
+    
+    
+    if (navxSub.getYaw() < 180 && drivetrainSub.turnAndLeaveCommunity == false) {
       drivetrainSub.turnRobotRight(Constants.DrivetrainConstants.DRIVE_BACKWARDS_SPEED, Constants.DrivetrainConstants.DRIVE_FORWARD_SPEED);
+      System.out.println("turning");
     } else if (navxSub.getYaw() >= 180 && drivetrainSub.turnAndLeaveCommunity == false) {
       drivetrainSub.turnRobotRight(0, 0);
+      System.out.println("truning stopped");
+      drivetrainSub.recentPosition = drivetrainSub.leftTopMotorPos;
       drivetrainSub.turnAndLeaveCommunity = true;
     }
 
-    if (drivetrainSub.turnAndLeaveCommunity == true && drivetrainSub.leftTopMotorPos != (drivetrainSub.recentPosition + 38329.9)) {
-      drivetrainSub.driveForward(Constants.DrivetrainConstants.DRIVE_FORWARD_SPEED);
-    } else if (drivetrainSub.turnAndLeaveCommunity == true && drivetrainSub.leftTopMotorPos >= (drivetrainSub.recentPosition + 38329.9)) {
+    if (drivetrainSub.turnAndLeaveCommunity == true && drivetrainSub.leftTopMotorPos < drivetrainSub.recentPosition) {
+      drivetrainSub.driveForward(0.4);
+      System.out.println("Going forward");
+    } else if (drivetrainSub.turnAndLeaveCommunity == true && drivetrainSub.leftTopMotorPos >= drivetrainSub.recentPosition) {
       drivetrainSub.driveForward(0);
       drivetrainSub.turnAndLeaveCommunityFinished = true;
+      System.out.println("Going forward stopped");
     }
   } 
 

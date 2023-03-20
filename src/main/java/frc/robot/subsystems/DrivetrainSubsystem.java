@@ -109,6 +109,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("dtPos(Inch)", roundedMotorPos / Constants.DrivetrainConstants.HIGH_GEAR_ENCODER_PER_INCH);
     SmartDashboard.putBoolean("Gear", onHighGear);
 
+    SmartDashboard.putNumber("left top mottor", leftTopMotorPos);
+    SmartDashboard.putNumber("In place left top motor pos", recentPosition);
+    SmartDashboard.putBoolean("turning boolean", turnAndLeaveCommunity);
+
   }
 
   public void driveWithJoysticks(double leftThrottle, double rightThrottle, double turn){
