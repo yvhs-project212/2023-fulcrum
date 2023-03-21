@@ -45,8 +45,8 @@ public final class Constants {
   }
 
   public static class ClawConstants{
-    public static final int LEFT_CLAW_ROLLER_MOTOR = 5;
-    public static final int RIGHT_CLAW_ROLLER_MOTOR = 8;
+    public static final int CLAW_ROLLER_MOTOR = 5;
+    public static final double CLAW_INTAKE_SPEED = -0.5;
     public static final double CLAW_REMOTE_OUTTAKE_SPEED = 0.4;
     public static final double CLAW_AUTO_OUTTAKE_SPEED = 0.4;
     public static final int AUTO_CLAW_OUTTAKE_TIMING = 8000;
