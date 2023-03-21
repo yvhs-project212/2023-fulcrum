@@ -69,18 +69,18 @@ public class RobotContainer {
   public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem);
   public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub);
   public final Command noAutoComm = new NoAutoCommand(drivetrainSub);
-  SendableChooser<Command> autonomouChooser = new SendableChooser<>();
+  SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
 
-    autonomouChooser.setDefaultOption("No Autonomous", noAutoComm);
-    autonomouChooser.addOption("Auto Balancing", chargingStationBalancingCmdGrp);
-    autonomouChooser.addOption("Auto Cube Shooting", autoCubeShootingCmdGrp);
+    autonomousChooser.setDefaultOption("No Autonomous", noAutoComm);
+    autonomousChooser.addOption("Auto Balancing", chargingStationBalancingCmdGrp);
+    autonomousChooser.addOption("Auto Cube Shooting", autoCubeShootingCmdGrp);
 
-    SmartDashboard.putData(autonomouChooser);
+    SmartDashboard.putData(autonomousChooser);
 
     //Settiing default commands for subsystems.
     elevatorSub.setDefaultCommand(elevatorLiftComm);  
@@ -131,6 +131,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() { 
     // An example command will be run in autonomous
-    return autonomouChooser.getSelected();
+    return autonomousChooser.getSelected();
   }
 }

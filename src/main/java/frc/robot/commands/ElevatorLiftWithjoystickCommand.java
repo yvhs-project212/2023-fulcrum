@@ -28,9 +28,10 @@ public class ElevatorLiftWithjoystickCommand extends CommandBase {
   @Override
   public void execute() {
     if(RobotContainer.operatorController.getYButton()){
-      elevatorSub.elevatorLiftWithJoystick(-Constants.ElevatorConstants.AUTO_ELEVATOR_MOTOR_SPEED);
-    }
+      elevatorSub.elevatorLiftWithJoystick(Constants.ElevatorConstants.AUTO_ELEVATOR_MOTOR_UP_SPEED);
+    } else{
     elevatorSub.elevatorLiftWithJoystick(RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_Y_AXIS));
+    }
   }
 
   // Called once the command ends or is interrupted.

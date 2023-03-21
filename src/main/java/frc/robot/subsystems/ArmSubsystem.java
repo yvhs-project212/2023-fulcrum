@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Constants;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -19,6 +21,8 @@ public class ArmSubsystem extends SubsystemBase {
   public double armDown;
   public double armUp;
   public double armError;
+  public double lastTimestamp;
+  public double errorSum;
   
   
 
@@ -35,8 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
     armMotorPos = armMotor.getSelectedSensorPosition();
     SmartDashboard.putNumber("ArmPosition", armMotorPos);
     SmartDashboard.putNumber("ArmDegrees", getArmAngle());
-    armError = Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT + getArmAngle();
-    SmartDashboard.putNumber("ArmError", armError);
+    SmartDashboard.putNumber("ArmError", Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT + getArmAngle());
   
   }
   
@@ -49,7 +52,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setArmAngleWithPID(double armAngleSetPoint){
-    armMotor.set(Constants.ArmConstants.ARM_kP * (armAngleSetPoint - getArmAngle()));
+    double armError = armAngleSetPoint - getArmAngle();
+    double timeChanges = Timer.getFPGATimestamp() - lastTimestamp;
+    errorSum += armError * timeChanges;
+    double armMotorOutput = MathUtil.clamp(Constants.ArmConstants.ARM_kP * armError + Constants.ArmConstants.ARM_kI * errorSum, -0.4, 0.4);
+    armMotor.set(armMotorOutput);
+    lastTimestamp = Timer.getFPGATimestamp();
   }
 
   public void resetArmEncoder(){
@@ -58,7 +66,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-  public void stopMotors() {
+  public void stopArmMotor() {
     armMotor.set(0);
   }
 }

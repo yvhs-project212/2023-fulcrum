@@ -71,6 +71,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
   }
 
+  public void setElevatorWithBangBang(double elevatorSetpoint){
+    if(getElevatorEncoderValueInInch() > elevatorSetpoint){
+      elevatorMotor.set(Constants.ElevatorConstants.AUTO_ELEVATOR_MOTOR_DOWN_SPEED);
+    } else if(getElevatorEncoderValueInInch() < elevatorSetpoint){
+      elevatorMotor.set(Constants.ElevatorConstants.AUTO_ELEVATOR_MOTOR_UP_SPEED);
+    } else{
+      elevatorMotor.set(0);
+    }
+  }
+
   public double getElevatorEncoderValueInInch(){
     return (elevatorMotorPos / Constants.ElevatorConstants.ENCODER_PER_INCH);
   }
