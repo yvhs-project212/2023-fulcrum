@@ -22,6 +22,9 @@ public final class Constants {
     public static final int RIGHT_TOP_MOTOR = 2;
     public static final int RIGHT_BOTTOM_MOTOR = 3;
 
+    public static final double AUTO_LEFT_DRIVE_TURN_SPEED = 0.2;
+    public static final double AUTO_RIGHT_DRIVE_TURN_SPEED = 0.2;
+
     public static final double DRIVE_FORWARD_SPEED = 0.25;
     public static final double DRIVE_BACKWARDS_SPEED = 0.25;
     public static final double DRIVE_SLOWLY_SPEED = 0.15;

@@ -29,35 +29,54 @@ public class TurnAndLeaveCommunityCommand extends CommandBase {
   public void initialize() {
     System.out.println("out of community command started");
     navxSub.resetGyro();
-    drivetrainSub.turnAndLeaveCommunity = true;
-    drivetrainSub.recentPosition = drivetrainSub.leftTopMotorPos + 10000;
+    drivetrainSub.turnAndLeaveCommunity = false;
+    drivetrainSub.turnAndLeaveCommunityFinished = false;
+    drivetrainSub.recentPosition = drivetrainSub.leftTopMotorPos + 30000;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    
-    
-    if (navxSub.getYaw() < 180 && drivetrainSub.turnAndLeaveCommunity == false) {
-      drivetrainSub.turnRobotRight(Constants.DrivetrainConstants.DRIVE_BACKWARDS_SPEED, Constants.DrivetrainConstants.DRIVE_FORWARD_SPEED);
-      System.out.println("turning");
-    } else if (navxSub.getYaw() >= 180 && drivetrainSub.turnAndLeaveCommunity == false) {
-      drivetrainSub.turnRobotRight(0, 0);
-      System.out.println("truning stopped");
-      drivetrainSub.recentPosition = drivetrainSub.leftTopMotorPos;
-      drivetrainSub.turnAndLeaveCommunity = true;
+    if (drivetrainSub.turnAndLeaveCommunity == false) {
+      if (drivetrainSub.leftTopMotorPos < drivetrainSub.recentPosition) {
+        drivetrainSub.driveForward(-0.2);
+        System.out.println("Going backwards");
+      } else {
+        drivetrainSub.driveForward(0);
+        System.out.println("Going backwards stopped");
+        drivetrainSub.turnAndLeaveCommunity = true;
+      }
+    } else if (drivetrainSub.turnAndLeaveCommunity == true) {
+      if (navxSub.getYaw() < 150) {
+        drivetrainSub.turnRobotRight(0.1, 0.09);
+        System.out.println("truning ");
+      } else {
+        drivetrainSub.turnRobotRight(0, 0);
+        System.out.println("turning Stopped");
+        drivetrainSub.turnAndLeaveCommunityFinished = true;
+      }
     }
 
-    if (drivetrainSub.turnAndLeaveCommunity == true && drivetrainSub.leftTopMotorPos < drivetrainSub.recentPosition) {
-      drivetrainSub.driveForward(0.4);
-      System.out.println("Going forward");
-    } else if (drivetrainSub.turnAndLeaveCommunity == true && drivetrainSub.leftTopMotorPos >= drivetrainSub.recentPosition) {
+    /*if (drivetrainSub.turnAndLeaveCommunity == false  && drivetrainSub.leftTopMotorPos < drivetrainSub.recentPosition) {
+      drivetrainSub.driveForward(-0.2);
+      System.out.println("Going backwards");
+    } else if (drivetrainSub.turnAndLeaveCommunity == false  && drivetrainSub.leftTopMotorPos >= drivetrainSub.recentPosition) {
       drivetrainSub.driveForward(0);
+      System.out.println("Going backwards stopped");
+      drivetrainSub.turnAndLeaveCommunity = true;
+    } else if (navxSub.getYaw() < 150 && drivetrainSub.turnAndLeaveCommunity == true) {
+      drivetrainSub.turnRobotRight(0.1, 0.09);
+      System.out.println("truning ");
+    } else {
+      drivetrainSub.turnRobotRight(0, 0);
+      System.out.println("turning Stopped");
       drivetrainSub.turnAndLeaveCommunityFinished = true;
-      System.out.println("Going forward stopped");
-    }
-  } 
+    }*/
+  }
+      
+  
 
   // Called once the command ends or is interrupted.
   @Override

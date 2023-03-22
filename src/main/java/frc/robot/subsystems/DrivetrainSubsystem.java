@@ -110,7 +110,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Gear", onHighGear);
 
     SmartDashboard.putNumber("left top mottor", leftTopMotorPos);
-    SmartDashboard.putNumber("In place left top motor pos", recentPosition);
+    SmartDashboard.putNumber("Recent position", recentPosition);
     SmartDashboard.putBoolean("turning boolean", turnAndLeaveCommunity);
 
   }
@@ -138,6 +138,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     gearShiftSolenoid.set(true);
     leftMotorGroup.set(driveForwardSpeed);
     rightMotorGroup.set(driveBackwardsSpeed);
+  }
+  
+  public void setMotors(double left, double right) {
+    diffDrive.tankDrive(left, right);
   }
 
 
