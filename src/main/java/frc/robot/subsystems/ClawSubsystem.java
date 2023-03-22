@@ -29,7 +29,7 @@ public class ClawSubsystem extends SubsystemBase {
     clawMotor.setNeutralMode(NeutralMode.Brake);
 
     clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.ClawConstants.CLAW_SOLENOID);
-    clawSolenoid.set(true);
+    clawSolenoid.set(false);
 
     clawLimitSwitch = new DigitalInput(Constants.ClawConstants.CLAW_LIMIT_SWITCH);
  
@@ -39,9 +39,9 @@ public class ClawSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (clawLimitSwitch.get()){
-      clawLimitEnable = true;
-    } else{
       clawLimitEnable = false;
+    } else{
+      clawLimitEnable = true;
     }
     SmartDashboard.putBoolean("clawLimitSwitch", clawLimitEnable);
   }
@@ -55,7 +55,7 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void clawOpen(){
-    clawSolenoid.set(true);
+    clawSolenoid.set(false);
   }
 
   public void clawRollersOuttake(double clawOuttakeSpeed){
@@ -67,7 +67,7 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void clawClose(){
-    clawSolenoid.set(false);
+    clawSolenoid.set(true);
   }
 
   public void clawRollersStop(){
