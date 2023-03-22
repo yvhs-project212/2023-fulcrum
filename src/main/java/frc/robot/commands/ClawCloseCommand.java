@@ -7,12 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClawSubsystem;
 
-public class ClawRollersIntakeCommand extends CommandBase {
-  /** Creates a new ClawRollerIntakeCommand. */
+public class ClawCloseCommand extends CommandBase {
+  /** Creates a new ClawCloseCommand. */
 
   ClawSubsystem clawSub;
 
-  public ClawRollersIntakeCommand(ClawSubsystem clawSub) {
+  public ClawCloseCommand(ClawSubsystem clawSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.clawSub = clawSub;
@@ -26,14 +26,12 @@ public class ClawRollersIntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    clawSub.clawRollersIntake();
+    clawSub.clawClose();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    clawSub.clawRollersStop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

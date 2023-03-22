@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import javax.security.sasl.AuthorizeCallback;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,13 +16,13 @@ import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.ArmCommands;
 import frc.robot.commands.AutoCubeShootingCommandGroup;
 import frc.robot.commands.ChargingStationBalancingCmdGroup;
+import frc.robot.commands.ClawCloseCommand;
 import frc.robot.commands.ElevatorLiftWithjoystickCommand;
 import frc.robot.commands.NoAutoCommand;
 import frc.robot.commands.GearShiftHighCommand;
 import frc.robot.commands.GearShiftLowCommand;
 import frc.robot.commands.ClawIntakeCommand;
 import frc.robot.commands.ClawOpenCommand;
-import frc.robot.commands.ClawRollersIntakeCommand;
 import frc.robot.commands.ClawRollersOuttakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -62,8 +59,8 @@ public class RobotContainer {
   private final ClawSubsystem clawSub = new ClawSubsystem();
   private final ClawIntakeCommand clawIntakeComm = new ClawIntakeCommand(clawSub);
   private final ClawRollersOuttakeCommand clawRollersOuttakeComm = new ClawRollersOuttakeCommand(clawSub, Constants.ClawConstants.CLAW_REMOTE_OUTTAKE_SPEED);
-  private final ClawRollersIntakeCommand clawRollersIntakeComm = new ClawRollersIntakeCommand(clawSub);
   private final ClawOpenCommand clawOpenComm = new ClawOpenCommand(clawSub);
+  private final ClawCloseCommand clawCloseComm = new ClawCloseCommand(clawSub);
 
   //Arm Files
   public static ArmSubsystem arm = new ArmSubsystem();
@@ -113,13 +110,13 @@ public class RobotContainer {
     final JoystickButton clawIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
     clawIntake.whileTrue(clawIntakeComm);
     //Claw Open
-    final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kY.value);
+    final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kX.value);
     clawOpen.whileTrue(clawOpenComm);
-    //Claw Rollers Intake
-    final JoystickButton clawRollersIntake = new JoystickButton(operatorController, XboxController.Axis.kRightTrigger.value);
-    clawRollersIntake.whileTrue(clawRollersIntakeComm);
+    //Claw Close
+    final JoystickButton clawClose = new JoystickButton(operatorController, XboxController.Button.kA.value);
+    clawClose.whileTrue(clawCloseComm);
     //Claw Rollers Outtake
-    final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Axis.kRightTrigger.value);
+    final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
     clawRollersOuttake.whileTrue(clawRollersOuttakeComm);
 
 

@@ -4,15 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,9 +26,10 @@ public class ClawSubsystem extends SubsystemBase {
   public ClawSubsystem() {
 
     clawMotor = new WPI_TalonFX(Constants.ClawConstants.CLAW_ROLLER_MOTOR);
+    clawMotor.setNeutralMode(NeutralMode.Brake);
 
     clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.ClawConstants.CLAW_SOLENOID);
-    clawSolenoid.set(false);
+    clawSolenoid.set(true);
 
     clawLimitSwitch = new DigitalInput(Constants.ClawConstants.CLAW_LIMIT_SWITCH);
  
@@ -51,10 +48,8 @@ public class ClawSubsystem extends SubsystemBase {
 
   public void clawIntake(){
     if(clawLimitSwitch.get()){
-        clawSolenoid.set(true);
         clawMotor.set(Constants.ClawConstants.CLAW_INTAKE_SPEED);
     } else {
-        clawSolenoid.set(false);
         clawMotor.set(0);
     }
   }
