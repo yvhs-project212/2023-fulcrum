@@ -29,7 +29,9 @@ public class ArmCommands extends CommandBase {
   public void execute() {
     if(RobotContainer.operatorController.getYButton()){
       arm.setArmAngleWithPID(Constants.ArmConstants.HUMAN_PLAYER_ARM_SETPOINT);
-    } else{
+    } else if(RobotContainer.operatorController.getBButton()){
+      arm.setArmAngleWithPID(Constants.ArmConstants.GROUND_LEVEL_ARM_SETPOINT);
+    } else {
     arm.armWithJoystick(-RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_Y_AXIS));
     }
   }

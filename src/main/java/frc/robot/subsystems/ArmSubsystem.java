@@ -21,6 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
   public double armDown;
   public double armUp;
   public double armError;
+  public double positiveArmError;
   public double lastTimestamp;
   public double errorSum;
   
@@ -39,7 +40,8 @@ public class ArmSubsystem extends SubsystemBase {
     armMotorPos = armMotor.getSelectedSensorPosition();
     SmartDashboard.putNumber("ArmPosition", armMotorPos);
     SmartDashboard.putNumber("ArmDegrees", getArmAngle());
-    SmartDashboard.putNumber("ArmError", Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT + getArmAngle());
+    positiveArmError = -Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT + getArmAngle();
+    SmartDashboard.putNumber("ArmError", positiveArmError);
   
   }
   
@@ -55,7 +57,7 @@ public class ArmSubsystem extends SubsystemBase {
     double armError = armAngleSetPoint - getArmAngle();
     double timeChanges = Timer.getFPGATimestamp() - lastTimestamp;
     errorSum += armError * timeChanges;
-    double armMotorOutput = MathUtil.clamp(Constants.ArmConstants.ARM_kP * armError + Constants.ArmConstants.ARM_kI * errorSum, -0.4, 0.4);
+    double armMotorOutput = MathUtil.clamp(Constants.ArmConstants.ARM_kP * armError + Constants.ArmConstants.ARM_kI * errorSum, -0.2, 0.4);
     armMotor.set(armMotorOutput);
     lastTimestamp = Timer.getFPGATimestamp();
   }

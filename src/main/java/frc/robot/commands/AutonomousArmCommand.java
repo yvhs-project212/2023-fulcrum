@@ -48,7 +48,7 @@ public class AutonomousArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(armSub.armError <= 5){
+    if(armSub.positiveArmError <= 5){
       return true;
     } else{
       return false;
