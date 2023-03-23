@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +16,7 @@ import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.ArmCommands;
 import frc.robot.commands.AutoCubeShootingCommandGroup;
 import frc.robot.commands.ChargingStationBalancingCmdGroup;
+import frc.robot.commands.ClawCloseCommand;
 import frc.robot.commands.ElevatorLiftWithjoystickCommand;
 import frc.robot.commands.NoAutoCommand;
 import frc.robot.commands.GearShiftHighCommand;
@@ -60,6 +60,7 @@ public class RobotContainer {
   private final ClawIntakeCommand clawIntakeComm = new ClawIntakeCommand(clawSub);
   private final ClawRollersOuttakeCommand clawRollersOuttakeComm = new ClawRollersOuttakeCommand(clawSub, Constants.ClawConstants.CLAW_REMOTE_OUTTAKE_SPEED);
   private final ClawOpenCommand clawOpenComm = new ClawOpenCommand(clawSub);
+  private final ClawCloseCommand clawCloseComm = new ClawCloseCommand(clawSub);
 
   //Arm Files
   public static ArmSubsystem arm = new ArmSubsystem();
@@ -108,12 +109,16 @@ public class RobotContainer {
     //Claw Intake
     final JoystickButton clawIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
     clawIntake.whileTrue(clawIntakeComm);
-    //Claw Rollers Outtake
+    //Claw Open
     final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kX.value);
     clawOpen.whileTrue(clawOpenComm);
-    //Claw Open
+    //Claw Close
+    final JoystickButton clawClose = new JoystickButton(operatorController, XboxController.Button.kA.value);
+    clawClose.whileTrue(clawCloseComm);
+    //Claw Rollers Outtake
     final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
     clawRollersOuttake.whileTrue(clawRollersOuttakeComm);
+
 
     //Drivetrain Binds
     //Drivetrain Gear Shift High
