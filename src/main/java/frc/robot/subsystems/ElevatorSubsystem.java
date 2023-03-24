@@ -69,4 +69,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       }
     }
   }
+
+  public void resetElevatorEncoder(){
+    elevatorMotor.setSelectedSensorPosition(0);
+  }
 }

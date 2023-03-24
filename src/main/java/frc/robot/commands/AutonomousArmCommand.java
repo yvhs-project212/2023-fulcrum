@@ -11,18 +11,21 @@ import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class AutonomousArmCommand extends CommandBase {
   /** Creates a new AutonomousArmCommand. */
 
   ArmSubsystem armSub;
   DrivetrainSubsystem drivetrainSub;
+  ElevatorSubsystem elevatorSub;
 
-  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub) {
+  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.armSub = armSub;
     this.drivetrainSub = drivetrainSub;
+    this.elevatorSub = elevatorSub;
     addRequirements(armSub);
   }
 
@@ -31,12 +34,13 @@ public class AutonomousArmCommand extends CommandBase {
   public void initialize() {
     drivetrainSub.gearShiftHigh();
     armSub.resetArmEncoder();
+    elevatorSub.resetElevatorEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSub.setArmAngle(-Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT);
+    armSub.setArmAngle(Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT);
   }
 
   // Called once the command ends or is interrupted.

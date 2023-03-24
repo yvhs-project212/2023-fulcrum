@@ -13,9 +13,11 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ArmCommands extends CommandBase {
   /** Creates a new ArmCommands. */
     public ArmSubsystem arm;
+    double armSpeed;
 
-    public ArmCommands(ArmSubsystem arm) {
+    public ArmCommands(ArmSubsystem arm, double armSpeed) {
       this.arm = arm;
+      this.armSpeed = armSpeed;
       addRequirements(arm);
     }
   // Called when the command is initially scheduled.
@@ -27,7 +29,7 @@ public class ArmCommands extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.armWithJoystick(-RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_Y_AXIS));
+    arm.armWithJoystick(armSpeed);
   }
   // Called once the command ends or is interrupted.
   @Override
