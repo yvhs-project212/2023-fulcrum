@@ -5,25 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.NavxSubsystem;
 
-public class DriveForwardPerInch extends CommandBase {
-  /** Creates a new DriveForwardPerInch. */
+public class DriveUpRampBackwardsCommand extends CommandBase {
+  /** Creates a new DriveUpRampBackwardsCommand. */
+
   DrivetrainSubsystem drivetrainSub;
+  NavxSubsystem navxSub;
 
-  double inches;
-  double drivespeed;
-
-  boolean driveForwardPerInchIsFinished;
-  boolean driveForward;
-
-  public DriveForwardPerInch(DrivetrainSubsystem drivetrainSub, double inches, double drivespeed) { 
+  public DriveUpRampBackwardsCommand(DrivetrainSubsystem drivetrainSub,NavxSubsystem navxSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drivetrainSub = drivetrainSub;
-    this.inches = inches;
-    this.drivespeed = drivespeed;
+    this.navxSub = navxSub;
 
     addRequirements(drivetrainSub);
   }
@@ -31,31 +26,29 @@ public class DriveForwardPerInch extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrainSub.resetDrivetrainEncoders();
-
-    System.out.println("DriveForwardPerinch Has started");
+    System.out.println("Starting Drive Backwards!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSub.driveForward(drivespeed);
+    drivetrainSub.driveForward(-0.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Drive Backwards Ended!");
     drivetrainSub.driveForward(0);
-    System.out.println("DriveForwardPerinch Has ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((drivetrainSub.averageMotorPos / Constants.DrivetrainConstants.HIGH_GEAR_ENCODER_PER_INCH) <= inches){
+    if(navxSub.getPitch() <= -5){
       return true;
     } else{
-      return false;
+    return false;
     }
   }
 }

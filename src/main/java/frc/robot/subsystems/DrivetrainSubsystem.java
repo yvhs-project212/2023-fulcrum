@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import frc.robot.commands.DriveForwardPerInch;
 
 import frc.robot.Constants;
 
@@ -47,6 +48,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public double recentPosition;
   public double startingYaw;
+
+  public double finalPosition;
 
   public boolean onChargeStation;
   public boolean outOfCommunity;
@@ -112,6 +115,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("left top mottor", leftTopMotorPos);
     SmartDashboard.putNumber("Recent position", recentPosition);
     SmartDashboard.putBoolean("turning boolean", turnAndLeaveCommunity);
+    SmartDashboard.putNumber("final position", finalPosition);
 
   }
 
@@ -125,7 +129,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void driveForward(double driveForwardSpeed){
     gearShiftSolenoid.set(true);
     leftMotorGroup.set(driveForwardSpeed);
-    rightMotorGroup.set(driveForwardSpeed * 0.95);
+    rightMotorGroup.set(driveForwardSpeed * 0.98);
   }
 
   public void driveBackwards(double driveBackwardsSpeed){
@@ -134,14 +138,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     leftMotorGroup.set(driveBackwardsSpeed * 0.95);
   }
 
-  public void turnRobotRight(double driveBackwardsSpeed, double driveForwardSpeed){
+  public void turnRobotRight(double leftMotors, double rightMotors){
     gearShiftSolenoid.set(true);
-    leftMotorGroup.set(driveForwardSpeed);
-    rightMotorGroup.set(driveBackwardsSpeed);
+    leftMotorGroup.set(leftMotors);
+    rightMotorGroup.set(rightMotors * 0.95);
   }
   
   public void setMotors(double left, double right) {
-    diffDrive.tankDrive(left, right);
+    leftMotorGroup.set(left);
+    rightMotorGroup.set(right);
   }
 
 
