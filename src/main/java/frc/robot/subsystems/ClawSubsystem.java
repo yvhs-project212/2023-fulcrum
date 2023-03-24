@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -20,21 +21,15 @@ public class ClawSubsystem extends SubsystemBase {
   /** Creates a new ClawSubsystem. */
 
   //Initializing Motors And Solenoids
-  public WPI_TalonSRX leftRollerMotor;
-  public WPI_TalonSRX rightRollerMotor;
+  public WPI_TalonFX clawMotor;
   public Solenoid clawSolenoid;
-  public MotorControllerGroup clawMotorControllerGroup;
 
   public DigitalInput clawLimitSwitch;
   public boolean clawLimitEnable;
   
   public ClawSubsystem() {
 
-    leftRollerMotor = new WPI_TalonSRX(Constants.ClawConstants.LEFT_CLAW_ROLLER_MOTOR);
-    leftRollerMotor.setInverted(false);
-    rightRollerMotor = new WPI_TalonSRX(Constants.ClawConstants.RIGHT_CLAW_ROLLER_MOTOR);
-    rightRollerMotor.setInverted(true);
-    clawMotorControllerGroup = new MotorControllerGroup(leftRollerMotor, rightRollerMotor);
+    clawMotor = new WPI_TalonFX(Constants.ClawConstants.CLAW_ROLLER_MOTOR);
 
     clawSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.ClawConstants.CLAW_SOLENOID);
     clawSolenoid.set(false);
@@ -57,10 +52,10 @@ public class ClawSubsystem extends SubsystemBase {
   public void clawIntake(){
     if(clawLimitSwitch.get()){
         clawSolenoid.set(true);
-        clawMotorControllerGroup.set(-0.5);
+        clawMotor.set(Constants.ClawConstants.CLAW_INTAKE_SPEED);
     } else {
         clawSolenoid.set(false);
-        clawMotorControllerGroup.set(0);
+        clawMotor.set(0);
     }
   }
 
@@ -69,7 +64,11 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void clawRollersOuttake(double clawOuttakeSpeed){
-    clawMotorControllerGroup.set(clawOuttakeSpeed);
+    clawMotor.set(clawOuttakeSpeed);
+  }
+
+  public void clawRollersIntake(){
+    clawMotor.set(Constants.ClawConstants.CLAW_INTAKE_SPEED);
   }
 
   public void clawClose(){
@@ -77,7 +76,7 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void clawRollersStop(){
-    clawMotorControllerGroup.set(0);
+    clawMotor.set(0);
   }
 
 }

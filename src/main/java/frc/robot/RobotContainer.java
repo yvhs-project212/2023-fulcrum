@@ -29,6 +29,7 @@ import frc.robot.commands.GearShiftHighCommand;
 import frc.robot.commands.GearShiftLowCommand;
 import frc.robot.commands.ClawIntakeCommand;
 import frc.robot.commands.ClawOpenCommand;
+import frc.robot.commands.ClawRollersIntakeCommand;
 import frc.robot.commands.ClawRollersOuttakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -65,6 +66,7 @@ public class RobotContainer {
   private final ClawSubsystem clawSub = new ClawSubsystem();
   private final ClawIntakeCommand clawIntakeComm = new ClawIntakeCommand(clawSub);
   private final ClawRollersOuttakeCommand clawRollersOuttakeComm = new ClawRollersOuttakeCommand(clawSub, Constants.ClawConstants.CLAW_REMOTE_OUTTAKE_SPEED);
+  private final ClawRollersIntakeCommand clawRollersIntakeComm = new ClawRollersIntakeCommand(clawSub);
   private final ClawOpenCommand clawOpenComm = new ClawOpenCommand(clawSub);
 
   //Arm Files
@@ -122,12 +124,16 @@ public class RobotContainer {
     //Claw Intake
     final JoystickButton clawIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
     clawIntake.whileTrue(clawIntakeComm);
-    //Claw Rollers Outtake
-    final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kRightStick.value);
-    clawOpen.whileTrue(clawOpenComm);
     //Claw Open
-    final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
+    final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kY.value);
+    clawOpen.whileTrue(clawOpenComm);
+    //Claw Rollers Intake
+    final JoystickButton clawRollersIntake = new JoystickButton(operatorController, XboxController.Axis.kRightTrigger.value);
+    clawRollersIntake.whileTrue(clawRollersIntakeComm);
+    //Claw Rollers Outtake
+    final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Axis.kRightTrigger.value);
     clawRollersOuttake.whileTrue(clawRollersOuttakeComm);
+
 
     //Drivetrain Binds
     //Drivetrain Gear Shift High
