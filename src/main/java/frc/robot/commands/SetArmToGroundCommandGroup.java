@@ -4,24 +4,22 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoCubeShootingCommandGroup extends SequentialCommandGroup {
-  /** Creates a new AutoCubeShootingCommandGroup. */
-  public AutoCubeShootingCommandGroup(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ClawSubsystem clawSub, ElevatorSubsystem elevatorSub) {
+public class SetArmToGroundCommandGroup extends ParallelCommandGroup {
+  /** Creates a new SetArmToGroundCommandGroup. */
+  public SetArmToGroundCommandGroup(ElevatorSubsystem elevatorSub, ArmSubsystem armSub) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub),
-      new AutonomousClawOuttakeCommand(clawSub)
+      new ElevatorLiftWithjoystickCommand(elevatorSub, Constants.ElevatorConstants.QUICK_ELEVATOR_SET_HEIGHT_SPEED),
+      new SetArmAngleCommand(armSub, Constants.ArmConstants.SET_ARM_TO_GROUND)
     );
   }
 }

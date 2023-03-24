@@ -4,55 +4,58 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.NavxSubsystem;
 
-public class DriveUpTheRampCommand extends CommandBase {
-  /** Creates a new DriveUpTheRampCommand. */
-
+public class DriveForwardPerInch extends CommandBase {
+  /** Creates a new DriveForwardPerInch. */
   DrivetrainSubsystem drivetrainSub;
-  NavxSubsystem navxSub;
 
-  public DriveUpTheRampCommand(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub) {
+  double inches;
+  double drivespeed;
+
+  boolean driveForwardPerInchIsFinished;
+  boolean driveForward;
+
+  public DriveForwardPerInch(DrivetrainSubsystem drivetrainSub, double inches, double drivespeed) { 
     // Use addRequirements() here to declare subsystem dependencies.
-    
+
     this.drivetrainSub = drivetrainSub;
-    this.navxSub = navxSub;
+    this.inches = inches;
+    this.drivespeed = drivespeed;
+
     addRequirements(drivetrainSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting Driving Up The Ramp!");
-    drivetrainSub.lastTimestamp = 0;
-    drivetrainSub.lastError = 0;
-    drivetrainSub.gearShiftHigh();
+    drivetrainSub.resetDrivetrainEncoders();
+
+    System.out.println("DriveForwardPerinch Has started");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSub.chargingStationBalancingWithPID(Constants.DrivetrainConstants.DRIVE_UP_THE_RAMP_kP, 
-    Constants.DrivetrainConstants.DRIVE_UP_THE_RAMP_kD, 
-    navxSub.getPitch());
+    drivetrainSub.driveForward(drivespeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Drive Up The Ramp Ended!");
+    drivetrainSub.driveForward(0);
+    System.out.println("DriveForwardPerinch Has ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    return false;
+    if((drivetrainSub.averageMotorPos / Constants.DrivetrainConstants.HIGH_GEAR_ENCODER_PER_INCH) <= inches){
+      return true;
+    } else{
+      return false;
+    }
   }
 }

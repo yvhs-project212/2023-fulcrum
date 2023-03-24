@@ -22,8 +22,13 @@ public final class Constants {
     public static final int RIGHT_TOP_MOTOR = 2;
     public static final int RIGHT_BOTTOM_MOTOR = 3;
 
+    public static final double AUTO_LEFT_DRIVE_TURN_SPEED = 0.2;
+    public static final double AUTO_RIGHT_DRIVE_TURN_SPEED = 0.2;
+
     public static final double DRIVE_FORWARD_SPEED = 0.25;
-    public static final double DRIVE_UP_THE_RAMP_kP = 0.0125;
+    public static final double DRIVE_BACKWARDS_SPEED = 0.25;
+    public static final double DRIVE_SLOWLY_SPEED = 0.15;
+    public static final double DRIVE_UP_THE_RAMP_kP = 0.012525;
     public static final double DRIVE_UP_THE_RAMP_kD = 0.005;
 
     public static final int GEAR_SHIFTER_SOLENOID = 0;
@@ -44,6 +49,8 @@ public final class Constants {
     public static final double ELEVATOR_BOTTOM_INCHES = 18.75;
     public static final double ELEVATOR_TOP_INCHES = 38.25;
     public static final double ENCODER_PER_INCH = 4801.79;
+
+    public static final double QUICK_ELEVATOR_SET_HEIGHT_SPEED = 0.3;
   }
 
   public static class ClawConstants{

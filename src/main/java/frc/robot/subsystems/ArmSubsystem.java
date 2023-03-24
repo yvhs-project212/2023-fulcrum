@@ -5,11 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.MathUtil;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Constants;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

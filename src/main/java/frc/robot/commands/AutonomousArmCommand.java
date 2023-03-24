@@ -4,33 +4,34 @@
 
 package frc.robot.commands;
 
-import java.io.Console;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 public class AutonomousArmCommand extends CommandBase {
   /** Creates a new AutonomousArmCommand. */
 
   ArmSubsystem armSub;
   DrivetrainSubsystem drivetrainSub;
+  ElevatorSubsystem elevatorSub;
 
-  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub) {
+  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.armSub = armSub;
     this.drivetrainSub = drivetrainSub;
+    this.elevatorSub = elevatorSub;
     addRequirements(armSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrainSub.gearShiftLow();
+    drivetrainSub.gearShiftHigh();
     armSub.resetArmEncoder();
+    elevatorSub.resetElevatorEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

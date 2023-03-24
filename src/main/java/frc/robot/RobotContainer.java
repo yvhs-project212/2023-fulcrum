@@ -19,6 +19,9 @@ import frc.robot.commands.ChargingStationBalancingCmdGroup;
 import frc.robot.commands.ClawCloseCommand;
 import frc.robot.commands.ElevatorLiftWithjoystickCommand;
 import frc.robot.commands.NoAutoCommand;
+import frc.robot.commands.TurnPerDegreeCommand;
+import frc.robot.commands.SetArmToGroundCommandGroup;
+import frc.robot.commands.SetArmToHumanPlayerCommandGroup;
 import frc.robot.commands.GearShiftHighCommand;
 import frc.robot.commands.GearShiftLowCommand;
 import frc.robot.commands.ClawIntakeCommand;
@@ -53,7 +56,7 @@ public class RobotContainer {
 
   //Elevator Files
   private final ElevatorSubsystem elevatorSub = new ElevatorSubsystem();
-  private final ElevatorLiftWithjoystickCommand elevatorLiftComm = new ElevatorLiftWithjoystickCommand(elevatorSub);
+  private final ElevatorLiftWithjoystickCommand elevatorLiftComm = new ElevatorLiftWithjoystickCommand(elevatorSub, RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_Y_AXIS));
 
   //Claw Files
   private final ClawSubsystem clawSub = new ClawSubsystem();
@@ -64,13 +67,20 @@ public class RobotContainer {
 
   //Arm Files
   public static ArmSubsystem arm = new ArmSubsystem();
-  private final ArmCommands armWithDPadsCmd = new ArmCommands(arm);
+  private final ArmCommands armWithDPadsCmd = new ArmCommands(arm, -RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_Y_AXIS));
 
   //Autonomous File
-  public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem);
-  public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub);
+  public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem, elevatorSub, arm);
+  public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub, elevatorSub);
   public final Command noAutoComm = new NoAutoCommand(drivetrainSub);
+  public final Command DriveOverChargeAndBalanceCmdGrp = new frc.robot.commands.DriveOverChargeAndBalanceCmdGrp(drivetrainSub, m_NavxSubsystem);
+
+  public final Command TurnPerdegree = new TurnPerDegreeCommand(drivetrainSub, m_NavxSubsystem, 180);
   SendableChooser<Command> autonomousChooser = new SendableChooser<>();
+
+  //Quick Arm Setting Files
+  public final SetArmToHumanPlayerCommandGroup setArmHumanPlayerCmdGrp = new SetArmToHumanPlayerCommandGroup(elevatorSub, arm);
+  public final SetArmToGroundCommandGroup setArmToGroundCmdGrp = new SetArmToGroundCommandGroup(elevatorSub, arm);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -80,6 +90,7 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("No Autonomous", noAutoComm);
     autonomousChooser.addOption("Auto Balancing", chargingStationBalancingCmdGrp);
     autonomousChooser.addOption("Auto Cube Shooting", autoCubeShootingCmdGrp);
+    autonomousChooser.addOption("Drive Over Charge And Balance", DriveOverChargeAndBalanceCmdGrp);
 
     SmartDashboard.putData(autonomousChooser);
 
@@ -127,6 +138,13 @@ public class RobotContainer {
     //Drivetrain Gear Shift Low
     final JoystickButton gearShiftLow = new JoystickButton(driverController, XboxController.Button.kB.value);
     gearShiftLow.whileTrue(gearShiftLowComm);
+
+    //Elevator And Arm Binds
+    //Set Arm Height to Human Player
+    final JoystickButton setArmForHumanPlayer = new JoystickButton(operatorController, XboxController.Button.kY.value);
+    setArmForHumanPlayer.whileTrue(setArmHumanPlayerCmdGrp);
+    final JoystickButton setArmToGround = new JoystickButton(operatorController, XboxController.Button.kA.value);
+    setArmToGround.whileTrue(setArmToGroundCmdGrp);
   }
 
   /**

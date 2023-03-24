@@ -5,30 +5,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
-public class NoAutoCommand extends CommandBase {
-  /** Creates a new EmptyCommand. */
+public class SetArmAngleCommand extends CommandBase {
+  /** Creates a new SetArmAngleCommand. */
 
-  DrivetrainSubsystem drivetrainSub;
+  ArmSubsystem armSub;
+  double armAngle;
 
-  public NoAutoCommand(DrivetrainSubsystem drivetrainSub) {
+  public SetArmAngleCommand(ArmSubsystem armSub, double armAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.drivetrainSub = drivetrainSub;
-    addRequirements(drivetrainSub);
+    this.armSub = armSub;
+    this.armAngle = armAngle;
+    addRequirements(armSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    drivetrainSub.gearShiftHigh();
-    drivetrainSub.resetDrivetrainEncoders();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    armSub.setArmAngle(armAngle);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -4,55 +4,63 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.NavxSubsystem;
 
-public class DriveUpTheRampCommand extends CommandBase {
-  /** Creates a new DriveUpTheRampCommand. */
+public class TurnPerDegreeCommand extends CommandBase {
+  /** Creates a new TurnPerDegree. */
 
   DrivetrainSubsystem drivetrainSub;
   NavxSubsystem navxSub;
 
-  public DriveUpTheRampCommand(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub) {
+  double degreeInput;
+
+  public TurnPerDegreeCommand(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub, double degreeInput) {
+    //when method is called it will require the subsytem it uses the gyroscope and the amount of degrees it uses in the perameters
+
     // Use addRequirements() here to declare subsystem dependencies.
-    
+
     this.drivetrainSub = drivetrainSub;
     this.navxSub = navxSub;
+    this.degreeInput = degreeInput;
+
     addRequirements(drivetrainSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting Driving Up The Ramp!");
-    drivetrainSub.lastTimestamp = 0;
-    drivetrainSub.lastError = 0;
-    drivetrainSub.gearShiftHigh();
-  }
 
+    navxSub.resetGyro();
+
+    System.out.println("Turn per degree started");
+  }
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSub.chargingStationBalancingWithPID(Constants.DrivetrainConstants.DRIVE_UP_THE_RAMP_kP, 
-    Constants.DrivetrainConstants.DRIVE_UP_THE_RAMP_kD, 
-    navxSub.getPitch());
-  }
+    if (drivetrainSub.onHighGear == true){
+     drivetrainSub.turnRobotRight(0.45, -0.45);
+    } else if (drivetrainSub.onHighGear == false) {
+      drivetrainSub.turnRobotRight(0.3, -0.3);
+    }
+  } 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Drive Up The Ramp Ended!");
+    drivetrainSub.turnRobotRight(0, 0);
+    System.out.println("Turn per degree ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    return false;
+    if (navxSub.getYaw() > degreeInput) {
+      return true;
+    } else {
+      return false;
+    }
   }
-}
+} 

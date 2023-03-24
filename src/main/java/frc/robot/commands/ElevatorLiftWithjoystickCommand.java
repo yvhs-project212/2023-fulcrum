@@ -13,10 +13,12 @@ public class ElevatorLiftWithjoystickCommand extends CommandBase {
   /** Creates a new ElevatorCommand. */
 
   ElevatorSubsystem elevatorSub;
+  double elevatorSpeed;
 
-  public ElevatorLiftWithjoystickCommand(ElevatorSubsystem elevatorSub) {
+  public ElevatorLiftWithjoystickCommand(ElevatorSubsystem elevatorSub, double elevatorSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.elevatorSub = elevatorSub;
+    this.elevatorSpeed = elevatorSpeed;
     addRequirements(elevatorSub);
   }
 
