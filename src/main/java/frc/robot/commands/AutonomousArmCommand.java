@@ -31,7 +31,7 @@ public class AutonomousArmCommand extends CommandBase {
   public void initialize() {
     drivetrainSub.gearShiftHigh();
     armSub.resetArmEncoder();
-    elevatorSub.resetElevatorEncoder();
+    elevatorSub.resetElevatorEncoderValue();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -131,24 +131,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     leftMotorGroup.set(driveForwardSpeed);
     rightMotorGroup.set(driveForwardSpeed * 0.98);
   }
-
-  public void driveBackwards(double driveBackwardsSpeed){
-    gearShiftSolenoid.set(true);
-    rightMotorGroup.set(driveBackwardsSpeed);
-    leftMotorGroup.set(driveBackwardsSpeed * 0.95);
-  }
-
-  public void turnRobotRight(double leftMotors, double rightMotors){
-    gearShiftSolenoid.set(true);
-    leftMotorGroup.set(leftMotors);
-    rightMotorGroup.set(rightMotors * 0.95);
-  }
   
   public void setMotors(double left, double right) {
     leftMotorGroup.set(left);
     rightMotorGroup.set(right);
   }
-
 
   public void chargingStationBalancingWithPID(double kP, double kD, double pitchError){
     double timeChanges = Timer.getFPGATimestamp() - lastTimestamp;
