@@ -35,7 +35,7 @@ public class DriveForwardToTheRampCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSub.driveForward(Constants.DrivetrainConstants.DRIVE_FORWARD_SPEED);
+    drivetrainSub.driveForward(Constants.DrivetrainConstants.DRIVE_TO_THE_RAMP_SPEED);
   }
 
   // Called once the command ends or is interrupted.
@@ -47,7 +47,7 @@ public class DriveForwardToTheRampCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(navxSub.getPitch() >= 10){
+    if(navxSub.getPitch() >= 8){
       return true;
     } else{
     return false;

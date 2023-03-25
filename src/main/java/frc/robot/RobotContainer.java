@@ -19,6 +19,7 @@ import frc.robot.commands.ChargingStationBalancingCmdGroup;
 import frc.robot.commands.ClawCloseCommand;
 import frc.robot.commands.ElevatorLiftWithjoystickCommand;
 import frc.robot.commands.NoAutoCommand;
+import frc.robot.commands.ShootACubeThenBackupCommandGroup;
 import frc.robot.commands.GearShiftHighCommand;
 import frc.robot.commands.GearShiftLowCommand;
 import frc.robot.commands.ClawIntakeCommand;
@@ -71,6 +72,7 @@ public class RobotContainer {
   public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem, elevatorSub, arm);
   public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub, elevatorSub);
   public final Command noAutoComm = new NoAutoCommand(drivetrainSub);
+  public final Command cubeThenBackupCmdGrp = new ShootACubeThenBackupCommandGroup(drivetrainSub, clawSub, arm, elevatorSub);
   public final Command DriveOverChargeAndBalanceCmdGrp = new DriveOverChargeAndBalanceCmdGrp(drivetrainSub, m_NavxSubsystem, arm, clawSub, elevatorSub);
 
   SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -83,6 +85,7 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("No Autonomous", noAutoComm);
     autonomousChooser.addOption("Auto Balancing", chargingStationBalancingCmdGrp);
     autonomousChooser.addOption("Auto Cube Shooting", autoCubeShootingCmdGrp);
+    autonomousChooser.addOption("Shoot A Cube Then Backup", cubeThenBackupCmdGrp);
     autonomousChooser.addOption("Score Cube And Drive Over Charge And Balance", DriveOverChargeAndBalanceCmdGrp);
 
     SmartDashboard.putData(autonomousChooser);
@@ -126,10 +129,10 @@ public class RobotContainer {
 
     //Drivetrain Binds
     //Drivetrain Gear Shift High
-    final JoystickButton gearShiftHigh = new JoystickButton(driverController, XboxController.Button.kA.value);
+    final JoystickButton gearShiftHigh = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
     gearShiftHigh.whileTrue(gearShiftHighComm);
     //Drivetrain Gear Shift Low
-    final JoystickButton gearShiftLow = new JoystickButton(driverController, XboxController.Button.kB.value);
+    final JoystickButton gearShiftLow = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
     gearShiftLow.whileTrue(gearShiftLowComm);
   }
 

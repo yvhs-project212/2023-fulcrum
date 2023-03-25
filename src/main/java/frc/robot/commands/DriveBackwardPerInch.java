@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class DriveForwardPerInch extends CommandBase {
+public class DriveBackwardPerInch extends CommandBase {
   /** Creates a new DriveForwardPerInch. */
   DrivetrainSubsystem drivetrainSub;
 
@@ -18,7 +18,7 @@ public class DriveForwardPerInch extends CommandBase {
   boolean driveForwardPerInchIsFinished;
   boolean driveForward;
 
-  public DriveForwardPerInch(DrivetrainSubsystem drivetrainSub, double inches, double drivespeed) { 
+  public DriveBackwardPerInch(DrivetrainSubsystem drivetrainSub, double inches, double drivespeed) { 
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.drivetrainSub = drivetrainSub;
@@ -39,7 +39,9 @@ public class DriveForwardPerInch extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSub.driveForward(drivespeed);
+    //drivetrainSub.driveForward(drivespeed);
+    drivetrainSub.leftMotorGroup.set(drivespeed);
+    drivetrainSub.rightMotorGroup.set(drivespeed * 0.95);
   }
 
   // Called once the command ends or is interrupted.

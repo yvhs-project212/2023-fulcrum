@@ -21,7 +21,8 @@ public class AutoCubeShootingCommandGroup extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub),
-      new AutonomousClawOuttakeCommand(clawSub)
+      new AutonomousClawOuttakeCommand(clawSub, armSub)
+      //new MoveArmBackToDefaultPositionCommand(armSub)
     );
   }
 }

@@ -27,6 +27,7 @@ public final class Constants {
 
     public static final double DRIVE_FORWARD_SPEED = 0.25;
     public static final double DRIVE_BACKWARDS_SPEED = 0.25;
+    public static final double DRIVE_TO_THE_RAMP_SPEED = 0.2;
     public static final double DRIVE_SLOWLY_SPEED = 0.15;
     public static final double DRIVE_UP_THE_RAMP_kP = 0.012525;
     public static final double DRIVE_UP_THE_RAMP_kD = 0.005;
@@ -58,7 +59,7 @@ public final class Constants {
     public static final double CLAW_INTAKE_SPEED = -0.5;
     public static final double CLAW_REMOTE_OUTTAKE_SPEED = 0.4;
     public static final double CLAW_AUTO_OUTTAKE_SPEED = 0.4;
-    public static final int AUTO_CLAW_OUTTAKE_TIMING = 7000;
+    public static final int AUTO_CLAW_OUTTAKE_TIMING = 7500;
 
     public static final int CLAW_SOLENOID = 1;
 
@@ -71,9 +72,9 @@ public final class Constants {
     public static final double ARM_kP = 0.011;
     public static final double ARM_kI = 0.00002;
     
-    public static final double AUTONOMOUS_ARM_SETPOINT = -30;
-    public static final double HUMAN_PLAYER_ARM_SETPOINT = -50;
-    public static final double GROUND_LEVEL_ARM_SETPOINT = -96;
+    public static final double AUTONOMOUS_ARM_SETPOINT = -25;
+    public static final double HUMAN_PLAYER_ARM_SETPOINT = -40;
+    public static final double GROUND_LEVEL_ARM_SETPOINT = -65;
 
     public static final double ARM_MINIMUM_ANGLE = -58;
     public static final double ARM_MAXIMUM_ANGLE = 82;

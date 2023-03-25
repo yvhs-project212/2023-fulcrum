@@ -8,18 +8,21 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 
 public class AutonomousClawOuttakeCommand extends CommandBase {
   /** Creates a new AutonomousClawOuttakeCommand. */
 
   ClawSubsystem clawSub;
+  ArmSubsystem armSub;
   int time;
 
-  public AutonomousClawOuttakeCommand(ClawSubsystem clawSub) {
+  public AutonomousClawOuttakeCommand(ClawSubsystem clawSub, ArmSubsystem armSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.clawSub = clawSub;
+    this.armSub = armSub;
     addRequirements(clawSub);
 
   }
@@ -42,13 +45,6 @@ public class AutonomousClawOuttakeCommand extends CommandBase {
     }
 
     SmartDashboard.putNumber("TIme", time);
-
-    /*if (time < 100) {
-      clawSub.clawRollersOuttake(Constants.ClawConstants.CLAW_AUTO_OUTTAKE_SPEED);
-      time = (time++);
-    } else if (time >= 100) {
-      clawSub.clawRollersOuttake(0);
-      }*/
   }
   
 
@@ -57,6 +53,8 @@ public class AutonomousClawOuttakeCommand extends CommandBase {
   public void end(boolean interrupted) {
     clawSub.clawRollersStop();
     time = 0;
+    System.out.println("Claw Shooting Finished");
+    //armSub.setArmAngleWithPID(-20);
   }
 
   // Returns true when the command should end.
