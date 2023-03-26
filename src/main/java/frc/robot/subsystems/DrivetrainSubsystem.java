@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import frc.robot.commands.DriveBackwardPerInch;
-
 import frc.robot.Constants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -140,7 +138,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void chargingStationBalancingWithPID(double kP, double kD, double pitchError){
     double timeChanges = Timer.getFPGATimestamp() - lastTimestamp;
     double errorRate = (pitchError - lastError) / timeChanges;
-    double motorOutput = MathUtil.clamp((kP * pitchError + kD * errorRate), -0.1, 0.2);
+    double motorOutput = MathUtil.clamp((kP * pitchError + kD * errorRate), -0.12, 0.19);
     leftMotorGroup.set(motorOutput);
     rightMotorGroup.set(motorOutput * 0.95);
     lastTimestamp = Timer.getFPGATimestamp();

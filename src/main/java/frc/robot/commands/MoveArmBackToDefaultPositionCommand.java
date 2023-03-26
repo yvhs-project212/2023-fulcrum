@@ -40,7 +40,7 @@ public class MoveArmBackToDefaultPositionCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((armSub.armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE) >= -5 && (armSub.armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE) <= 5){
+    if((armSub.armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE) >= -7 && (armSub.armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE) <= 7){
       return true;
     } else {
       return false;

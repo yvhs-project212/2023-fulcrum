@@ -45,7 +45,7 @@ public class DriveUpRampBackwardsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(navxSub.getPitch() <= -5){
+    if(navxSub.getPitch() <= -7){
       return true;
     } else{
     return false;

@@ -27,9 +27,9 @@ public final class Constants {
 
     public static final double DRIVE_FORWARD_SPEED = 0.25;
     public static final double DRIVE_BACKWARDS_SPEED = 0.25;
-    public static final double DRIVE_TO_THE_RAMP_SPEED = 0.2;
+    public static final double DRIVE_TO_THE_RAMP_SPEED = 0.35;
     public static final double DRIVE_SLOWLY_SPEED = 0.15;
-    public static final double DRIVE_UP_THE_RAMP_kP = 0.012525;
+    public static final double DRIVE_UP_THE_RAMP_kP = 0.01245;
     public static final double DRIVE_UP_THE_RAMP_kD = 0.005;
 
     public static final int GEAR_SHIFTER_SOLENOID = 0;
@@ -60,6 +60,7 @@ public final class Constants {
     public static final double CLAW_REMOTE_OUTTAKE_SPEED = 0.4;
     public static final double CLAW_AUTO_OUTTAKE_SPEED = 0.4;
     public static final int AUTO_CLAW_OUTTAKE_TIMING = 7500;
+    public static final int AUTO_CLAW_ENCODER_SETPOINT = 30000;
 
     public static final int CLAW_SOLENOID = 1;
 

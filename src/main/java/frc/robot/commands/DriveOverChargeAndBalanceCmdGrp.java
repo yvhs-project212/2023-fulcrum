@@ -20,11 +20,13 @@ public class DriveOverChargeAndBalanceCmdGrp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoCubeShootingCommandGroup(armSub, drivetrainSub, clawSub, elevatorSub),
+      //new AutoCubeShootingCommandGroup(armSub, drivetrainSub, clawSub, elevatorSub),
+      new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub),
+      new AutonomousClawOuttakeCommand(clawSub, armSub),
       new MoveArmBackToDefaultPositionCommand(armSub),
       new DriveUpRampBackwardsCommand(drivetrainSub, navxSub),
       new DriveOnRampCommand(drivetrainSub, navxSub),
-      new DriveBackwardPerInch(drivetrainSub, -30, -0.4),
+      new DriveBackwardPerInch(drivetrainSub, -20, -0.2),
       new DriveForwardToTheRampCommand(drivetrainSub, navxSub),
       new DriveUpTheRampCommand(drivetrainSub, navxSub)
     );

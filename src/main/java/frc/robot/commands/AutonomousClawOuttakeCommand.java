@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -16,7 +15,7 @@ public class AutonomousClawOuttakeCommand extends CommandBase {
 
   ClawSubsystem clawSub;
   ArmSubsystem armSub;
-  int time;
+  //int time;
 
   public AutonomousClawOuttakeCommand(ClawSubsystem clawSub, ArmSubsystem armSub) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,21 +29,23 @@ public class AutonomousClawOuttakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    time = 0;
+    clawSub.resetClawEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    for (time = 0; time <= Constants.ClawConstants.AUTO_CLAW_OUTTAKE_TIMING; time++){
+    /*for (time = 0; time <= Constants.ClawConstants.AUTO_CLAW_OUTTAKE_TIMING; time++){
       if(time < Constants.ClawConstants.AUTO_CLAW_OUTTAKE_TIMING){
         clawSub.clawRollersOuttake(Constants.ClawConstants.CLAW_AUTO_OUTTAKE_SPEED);
       } else{
         clawSub.clawRollersStop();
       }
-    }
+    }*/
 
-    SmartDashboard.putNumber("TIme", time);
+    clawSub.clawRollersOuttake(Constants.ClawConstants.CLAW_AUTO_OUTTAKE_SPEED);
+
+    //SmartDashboard.putNumber("TIme", time);
   }
   
 
@@ -52,7 +53,6 @@ public class AutonomousClawOuttakeCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     clawSub.clawRollersStop();
-    time = 0;
     System.out.println("Claw Shooting Finished");
     //armSub.setArmAngleWithPID(-20);
   }
@@ -60,7 +60,7 @@ public class AutonomousClawOuttakeCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(time >= Constants.ClawConstants.AUTO_CLAW_OUTTAKE_TIMING){
+    if(clawSub.clawEncoderValue >= Constants.ClawConstants.AUTO_CLAW_ENCODER_SETPOINT){
       return true;
     } else{
       return false;

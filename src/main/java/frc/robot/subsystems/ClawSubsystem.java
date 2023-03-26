@@ -22,6 +22,8 @@ public class ClawSubsystem extends SubsystemBase {
 
   public DigitalInput clawLimitSwitch;
   public boolean clawLimitEnable;
+
+  public double clawEncoderValue;
   
   public ClawSubsystem() {
 
@@ -43,7 +45,10 @@ public class ClawSubsystem extends SubsystemBase {
     } else{
       clawLimitEnable = true;
     }
+
+    clawEncoderValue = clawMotor.getSelectedSensorPosition();
     SmartDashboard.putBoolean("clawLimitSwitch", clawLimitEnable);
+    SmartDashboard.putNumber("Claw Encoder", clawEncoderValue);
   }
 
   public void clawIntake(){
@@ -72,6 +77,10 @@ public class ClawSubsystem extends SubsystemBase {
 
   public void clawRollersStop(){
     clawMotor.set(0);
+  }
+
+  public void resetClawEncoder(){
+    clawMotor.setSelectedSensorPosition(0);
   }
 
 }
