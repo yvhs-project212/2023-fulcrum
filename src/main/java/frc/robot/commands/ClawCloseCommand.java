@@ -5,30 +5,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 
-public class NoAutoCommand extends CommandBase {
-  /** Creates a new EmptyCommand. */
+public class ClawCloseCommand extends CommandBase {
+  /** Creates a new ClawCloseCommand. */
 
-  DrivetrainSubsystem drivetrainSub;
+  ClawSubsystem clawSub;
 
-  public NoAutoCommand(DrivetrainSubsystem drivetrainSub) {
+  public ClawCloseCommand(ClawSubsystem clawSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.drivetrainSub = drivetrainSub;
-    addRequirements(drivetrainSub);
+    this.clawSub = clawSub;
+    addRequirements(clawSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    drivetrainSub.gearShiftHigh();
-    drivetrainSub.resetDrivetrainEncoders();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    clawSub.clawClose();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

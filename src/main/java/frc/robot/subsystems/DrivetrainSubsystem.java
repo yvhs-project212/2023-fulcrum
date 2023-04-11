@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-
 import frc.robot.Constants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -43,6 +42,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public double lastTimestamp = 0;
   public double lastError = 0;
+  public double turnErrorSum = 0;
+
+  public double recentPosition;
+  public double startingYaw;
+
+  public double finalPosition;
+
+  public boolean onChargeStation;
+  public boolean outOfCommunity;
+  public boolean outOfCommunityFinished;
+  public boolean turnAndLeaveCommunity;
+  public boolean turnAndLeaveCommunityFinished;
+
 
   public DrivetrainSubsystem() {
 
@@ -73,12 +85,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     //Created a solenoid for gear shifting.
     gearShiftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.DrivetrainConstants.GEAR_SHIFTER_SOLENOID);
-    gearShiftSolenoid.set(true);
+    gearShiftSolenoid.set(false);
     onHighGear = false;
 
     //Created differential drive by using left motors and right motors.
     diffDrive = new DifferentialDrive(leftMotorGroup, rightMotorGroup);
-
+    diffDrive.setSafetyEnabled(false);
   }
 
   @Override
@@ -95,7 +107,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
     roundedMotorPos = Math.floor(averageMotorPos + 0.5);
 
     SmartDashboard.putNumber("dtPos", roundedMotorPos);
+    SmartDashboard.putNumber("dtPos(Inch)", roundedMotorPos / Constants.DrivetrainConstants.HIGH_GEAR_ENCODER_PER_INCH);
     SmartDashboard.putBoolean("Gear", onHighGear);
+
+    SmartDashboard.putNumber("left top mottor", leftTopMotorPos);
+    SmartDashboard.putNumber("Recent position", recentPosition);
+    SmartDashboard.putBoolean("turning boolean", turnAndLeaveCommunity);
+    SmartDashboard.putNumber("final position", finalPosition);
 
   }
 
@@ -109,13 +127,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void driveForward(double driveForwardSpeed){
     gearShiftSolenoid.set(true);
     leftMotorGroup.set(driveForwardSpeed);
-    rightMotorGroup.set(driveForwardSpeed * 0.95);
+    rightMotorGroup.set(driveForwardSpeed * 0.98);
+  }
+  
+  public void setMotors(double left, double right) {
+    leftMotorGroup.set(left);
+    rightMotorGroup.set(right);
   }
 
   public void chargingStationBalancingWithPID(double kP, double kD, double pitchError){
     double timeChanges = Timer.getFPGATimestamp() - lastTimestamp;
     double errorRate = (pitchError - lastError) / timeChanges;
-    double motorOutput = MathUtil.clamp((kP * pitchError + kD * errorRate), -0.10, 0.2);
+    double motorOutput = MathUtil.clamp((kP * pitchError + kD * errorRate), -0.12, 0.19);
     leftMotorGroup.set(motorOutput);
     rightMotorGroup.set(motorOutput * 0.95);
     lastTimestamp = Timer.getFPGATimestamp();
@@ -133,16 +156,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     return roundedMotorPos;
   }
 
-  public void gearShiftLow(){
-    gearShiftSolenoid.set(true);
-    onHighGear = false;
-    System.out.println("Gear Shifted Low");
-  }
-
   public void gearShiftHigh(){
-    gearShiftSolenoid.set(false);
+    gearShiftSolenoid.set(true);
     onHighGear = true;
     System.out.println("Gear Shifted High");
+  }
+
+  public void gearShiftLow(){
+    gearShiftSolenoid.set(false);
+    onHighGear = false;
+    System.out.println("Gear Shifted Low");
   }
 
 }

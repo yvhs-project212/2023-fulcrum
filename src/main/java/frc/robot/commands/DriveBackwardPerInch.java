@@ -6,51 +6,55 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
 
-public class AutonomousArmCommand extends CommandBase {
-  /** Creates a new AutonomousArmCommand. */
-
-  ArmSubsystem armSub;
+public class DriveBackwardPerInch extends CommandBase {
+  /** Creates a new DriveForwardPerInch. */
   DrivetrainSubsystem drivetrainSub;
-  ElevatorSubsystem elevatorSub;
 
-  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub) {
+  double inches;
+  double drivespeed;
+
+  boolean driveForwardPerInchIsFinished;
+  boolean driveForward;
+
+  public DriveBackwardPerInch(DrivetrainSubsystem drivetrainSub, double inches, double drivespeed) { 
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.armSub = armSub;
     this.drivetrainSub = drivetrainSub;
-    this.elevatorSub = elevatorSub;
-    addRequirements(armSub);
+    this.inches = inches;
+    this.drivespeed = drivespeed;
+
+    addRequirements(drivetrainSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrainSub.gearShiftHigh();
-    armSub.resetArmEncoder();
-    elevatorSub.resetElevatorEncoderValue();
     drivetrainSub.resetDrivetrainEncoders();
+
+    System.out.println("DriveForwardPerinch Has started");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSub.setArmAngleWithPID(Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT);
+    //drivetrainSub.driveForward(drivespeed);
+    drivetrainSub.leftMotorGroup.set(drivespeed);
+    drivetrainSub.rightMotorGroup.set(drivespeed * 0.95);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armSub.armMotor.set(0);
+    drivetrainSub.driveForward(0);
+    System.out.println("DriveForwardPerinch Has ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(armSub.positiveArmError <= 5){
+    if((drivetrainSub.averageMotorPos / Constants.DrivetrainConstants.HIGH_GEAR_ENCODER_PER_INCH) <= inches){
       return true;
     } else{
       return false;

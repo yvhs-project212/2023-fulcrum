@@ -4,11 +4,8 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.NavxSubsystem;
 
@@ -32,6 +29,7 @@ public class DriveUpTheRampCommand extends CommandBase {
     System.out.println("Starting Driving Up The Ramp!");
     drivetrainSub.lastTimestamp = 0;
     drivetrainSub.lastError = 0;
+    drivetrainSub.gearShiftHigh();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

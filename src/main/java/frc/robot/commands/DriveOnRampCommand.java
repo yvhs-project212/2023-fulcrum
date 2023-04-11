@@ -5,51 +5,51 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.NavxSubsystem;
 
-public class DriveForwardCommand extends CommandBase {
-  /** Creates a new DriveForwardCommand. */
+public class DriveOnRampCommand extends CommandBase {
+  /** Creates a new DriveOnRamp. */
 
   DrivetrainSubsystem drivetrainSub;
   NavxSubsystem navxSub;
 
-  public DriveForwardCommand(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub) {
+
+  public DriveOnRampCommand(DrivetrainSubsystem drivetrainSub,NavxSubsystem navxSub) {
     // Use addRequirements() here to declare subsystem dependencies.
-    
+
     this.drivetrainSub = drivetrainSub;
     this.navxSub = navxSub;
+
     addRequirements(drivetrainSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting Drive Forward!");
-    drivetrainSub.gearShiftLow();
-    drivetrainSub.resetDrivetrainEncoders();
+    System.out.println("Drive On ramp started");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSub.driveForward(Constants.DrivetrainConstants.DRIVE_FORWARD_SPEED);
+    drivetrainSub.driveForward(-0.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Drive Forward Ended!");
+    drivetrainSub.driveForward(0);
+    System.out.println("Drive On ramp ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(navxSub.getPitch() >= 10){
+    if (navxSub.getPitch() > 5) {
       return true;
-    } else{
-    return false;
+    } else {
+      return false;
     }
   }
 }

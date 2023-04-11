@@ -13,15 +13,17 @@ import frc.robot.subsystems.ElevatorSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoCubeShootingCommandGroup extends SequentialCommandGroup {
-  /** Creates a new AutoCubeShootingCommandGroup. */
-  public AutoCubeShootingCommandGroup(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ClawSubsystem clawSub, ElevatorSubsystem elevatorSub) {
+public class ShootACubeThenBackupCommandGroup extends SequentialCommandGroup {
+  /** Creates a new ShootACubeThenBackupCommandGroup. */
+  public ShootACubeThenBackupCommandGroup(DrivetrainSubsystem drivetrainSub, ClawSubsystem clawSub, ArmSubsystem armSub, ElevatorSubsystem elevatorSub) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      //new AutoCubeShootingCommandGroup(armSub, drivetrainSub, clawSub, elevatorSub),
       new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub),
-      new AutonomousClawOuttakeCommand(clawSub, armSub)
-      //new MoveArmBackToDefaultPositionCommand(armSub)
+      new AutonomousClawOuttakeCommand(clawSub, armSub),
+      new MoveArmBackToDefaultPositionCommand(armSub),
+      new DriveBackwardPerInch(drivetrainSub, -140, -0.4)
     );
   }
 }

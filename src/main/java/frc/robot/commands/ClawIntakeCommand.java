@@ -34,7 +34,6 @@ public class ClawIntakeCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     clawSub.clawRollersStop();
-    clawSub.clawClose();
   }
 
   // Returns true when the command should end.

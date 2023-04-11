@@ -9,19 +9,26 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.NavxSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoCubeShootingCommandGroup extends SequentialCommandGroup {
-  /** Creates a new AutoCubeShootingCommandGroup. */
-  public AutoCubeShootingCommandGroup(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ClawSubsystem clawSub, ElevatorSubsystem elevatorSub) {
+public class DriveOverChargeAndBalanceCmdGrp extends SequentialCommandGroup {
+  /** Creates a new TurnAndDrive. */
+  public DriveOverChargeAndBalanceCmdGrp(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub, ArmSubsystem armSub, ClawSubsystem clawSub, ElevatorSubsystem elevatorSub) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      //new AutoCubeShootingCommandGroup(armSub, drivetrainSub, clawSub, elevatorSub),
       new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub),
-      new AutonomousClawOuttakeCommand(clawSub, armSub)
-      //new MoveArmBackToDefaultPositionCommand(armSub)
+      new AutonomousClawOuttakeCommand(clawSub, armSub),
+      new MoveArmBackToDefaultPositionCommand(armSub),
+      new DriveUpRampBackwardsCommand(drivetrainSub, navxSub),
+      new DriveOnRampCommand(drivetrainSub, navxSub),
+      new DriveBackwardPerInch(drivetrainSub, -20, -0.2),
+      new DriveForwardToTheRampCommand(drivetrainSub, navxSub),
+      new DriveUpTheRampCommand(drivetrainSub, navxSub)
     );
   }
 }

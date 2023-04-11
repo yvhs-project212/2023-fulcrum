@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import javax.security.sasl.AuthorizeCallback;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,13 +16,16 @@ import frc.robot.commands.ArcadeDriveCommand;
 import frc.robot.commands.ArmCommands;
 import frc.robot.commands.AutoCubeShootingCommandGroup;
 import frc.robot.commands.ChargingStationBalancingCmdGroup;
+import frc.robot.commands.ClawCloseCommand;
 import frc.robot.commands.ElevatorLiftWithjoystickCommand;
 import frc.robot.commands.NoAutoCommand;
+import frc.robot.commands.ShootACubeThenBackupCommandGroup;
 import frc.robot.commands.GearShiftHighCommand;
 import frc.robot.commands.GearShiftLowCommand;
 import frc.robot.commands.ClawIntakeCommand;
 import frc.robot.commands.ClawOpenCommand;
 import frc.robot.commands.ClawRollersOuttakeCommand;
+import frc.robot.commands.DriveOverChargeAndBalanceCmdGrp;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
@@ -55,34 +55,40 @@ public class RobotContainer {
 
   //Elevator Files
   private final ElevatorSubsystem elevatorSub = new ElevatorSubsystem();
-  private final ElevatorLiftWithjoystickCommand elevatorLiftComm = new ElevatorLiftWithjoystickCommand(elevatorSub);
+  private final ElevatorLiftWithjoystickCommand elevatorLiftComm = new ElevatorLiftWithjoystickCommand(elevatorSub, RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_Y_AXIS));
 
   //Claw Files
   private final ClawSubsystem clawSub = new ClawSubsystem();
   private final ClawIntakeCommand clawIntakeComm = new ClawIntakeCommand(clawSub);
   private final ClawRollersOuttakeCommand clawRollersOuttakeComm = new ClawRollersOuttakeCommand(clawSub, Constants.ClawConstants.CLAW_REMOTE_OUTTAKE_SPEED);
   private final ClawOpenCommand clawOpenComm = new ClawOpenCommand(clawSub);
+  private final ClawCloseCommand clawCloseComm = new ClawCloseCommand(clawSub);
 
   //Arm Files
   public static ArmSubsystem arm = new ArmSubsystem();
-  private final ArmCommands armWithDPadsCmd = new ArmCommands(arm);
+  private final ArmCommands armWithDPadsCmd = new ArmCommands(arm, -RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_Y_AXIS));
 
   //Autonomous File
-  public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem);
-  public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub);
+  public final Command chargingStationBalancingCmdGrp = new ChargingStationBalancingCmdGroup(drivetrainSub, m_NavxSubsystem, elevatorSub, arm);
+  public final Command autoCubeShootingCmdGrp = new AutoCubeShootingCommandGroup(arm, drivetrainSub, clawSub, elevatorSub);
   public final Command noAutoComm = new NoAutoCommand(drivetrainSub);
-  SendableChooser<Command> autonomouChooser = new SendableChooser<>();
+  public final Command cubeThenBackupCmdGrp = new ShootACubeThenBackupCommandGroup(drivetrainSub, clawSub, arm, elevatorSub);
+  public final Command DriveOverChargeAndBalanceCmdGrp = new DriveOverChargeAndBalanceCmdGrp(drivetrainSub, m_NavxSubsystem, arm, clawSub, elevatorSub);
+
+  SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
 
-    autonomouChooser.setDefaultOption("No Autonomous", noAutoComm);
-    autonomouChooser.addOption("Auto Balancing", chargingStationBalancingCmdGrp);
-    autonomouChooser.addOption("Auto Cube Shooting", autoCubeShootingCmdGrp);
+    autonomousChooser.setDefaultOption("No Autonomous", noAutoComm);
+    autonomousChooser.addOption("Auto Balancing", chargingStationBalancingCmdGrp);
+    autonomousChooser.addOption("Auto Cube Shooting", autoCubeShootingCmdGrp);
+    autonomousChooser.addOption("Shoot A Cube Then Backup", cubeThenBackupCmdGrp);
+    autonomousChooser.addOption("Score Cube And Drive Over Charge And Balance", DriveOverChargeAndBalanceCmdGrp);
 
-    SmartDashboard.putData(autonomouChooser);
+    SmartDashboard.putData(autonomousChooser);
 
     //Settiing default commands for subsystems.
     elevatorSub.setDefaultCommand(elevatorLiftComm);  
@@ -110,19 +116,23 @@ public class RobotContainer {
     //Claw Intake
     final JoystickButton clawIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
     clawIntake.whileTrue(clawIntakeComm);
-    //Claw Rollers Outtake
-    final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kY.value);
-    clawOpen.whileTrue(clawOpenComm);
     //Claw Open
+    final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kX.value);
+    clawOpen.whileTrue(clawOpenComm);
+    //Claw Close
+    final JoystickButton clawClose = new JoystickButton(operatorController, XboxController.Button.kA.value);
+    clawClose.whileTrue(clawCloseComm);
+    //Claw Rollers Outtake
     final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
     clawRollersOuttake.whileTrue(clawRollersOuttakeComm);
 
+
     //Drivetrain Binds
     //Drivetrain Gear Shift High
-    final JoystickButton gearShiftHigh = new JoystickButton(driverController, XboxController.Button.kA.value);
+    final JoystickButton gearShiftHigh = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
     gearShiftHigh.whileTrue(gearShiftHighComm);
     //Drivetrain Gear Shift Low
-    final JoystickButton gearShiftLow = new JoystickButton(driverController, XboxController.Button.kB.value);
+    final JoystickButton gearShiftLow = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
     gearShiftLow.whileTrue(gearShiftLowComm);
   }
 
@@ -133,6 +143,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() { 
     // An example command will be run in autonomous
-    return autonomouChooser.getSelected();
+    return autonomousChooser.getSelected();
   }
 }

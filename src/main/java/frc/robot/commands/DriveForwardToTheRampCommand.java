@@ -6,54 +6,51 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.NavxSubsystem;
 
-public class AutonomousArmCommand extends CommandBase {
-  /** Creates a new AutonomousArmCommand. */
+public class DriveForwardToTheRampCommand extends CommandBase {
+  /** Creates a new DriveForwardCommand. */
 
-  ArmSubsystem armSub;
   DrivetrainSubsystem drivetrainSub;
-  ElevatorSubsystem elevatorSub;
+  NavxSubsystem navxSub;
 
-  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub) {
+  public DriveForwardToTheRampCommand(DrivetrainSubsystem drivetrainSub, NavxSubsystem navxSub) {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    this.armSub = armSub;
+    
     this.drivetrainSub = drivetrainSub;
-    this.elevatorSub = elevatorSub;
-    addRequirements(armSub);
+    this.navxSub = navxSub;
+    addRequirements(drivetrainSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Starting Drive Forward!");
+    drivetrainSub.resetDrivetrainEncoders();
     drivetrainSub.gearShiftHigh();
-    armSub.resetArmEncoder();
-    elevatorSub.resetElevatorEncoderValue();
     drivetrainSub.resetDrivetrainEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSub.setArmAngleWithPID(Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT);
+    drivetrainSub.driveForward(Constants.DrivetrainConstants.DRIVE_TO_THE_RAMP_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armSub.armMotor.set(0);
+    System.out.println("Drive Forward Ended!");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(armSub.positiveArmError <= 5){
+    if(navxSub.getPitch() >= 8){
       return true;
     } else{
-      return false;
+    return false;
     }
   }
 }
