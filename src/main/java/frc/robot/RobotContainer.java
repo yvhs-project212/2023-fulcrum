@@ -29,6 +29,9 @@ import frc.robot.commands.DriveOverChargeAndBalanceCmdGrp;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.GitInfoSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
+import edu.wpi.first.wpilibj.DataLogManager;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -39,6 +42,16 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // Replace with CommandPS4Controller or CommandJoystick if needed
+
+  // The robot's subsystems and commands are defined here...
+  private final GitInfoSubsystem m_gitInfo = new GitInfoSubsystem();
+  private final int LED_CONTROLLER_PWM_PORT = 0;
+ 
+  private final LEDSubsystem m_leds = new LEDSubsystem(LED_CONTROLLER_PWM_PORT);
+ 
+  // Command instances
+  private final Command autoCmd = m_leds.doNothingCommand();
+  private final Command teleopCmd = m_leds.doNothingCommand();
 
   //Controller Files
   public static XboxController driverController = new XboxController(Constants.OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -144,5 +157,36 @@ public class RobotContainer {
   public Command getAutonomousCommand() { 
     // An example command will be run in autonomous
     return autonomousChooser.getSelected();
+  }
+  /**
+   * Log information from the GitInfoSubsystem to the console.
+   */
+  public void logGitInfo() {
+    String gCommit = m_gitInfo.commitHash();
+    String gBranch = m_gitInfo.branch();
+    String gTags = m_gitInfo.tags();
+    String gMods = m_gitInfo.modifiedFiles();
+    if (gMods == "") {
+      // No modified files on the robot computer -- good!
+      DataLogManager.log("========================================");
+      DataLogManager.log("Software version: git commit hash [" + gCommit +
+                         "] (branch " + gBranch + ")");
+      if (gTags.equals("")) {
+        DataLogManager.log("  (untagged)");
+      } else {
+        DataLogManager.log("  tagged version: [" + gTags + "]");
+      }
+      DataLogManager.log("========================================");
+    } else {
+      // Uh-oh, some files have been modified locally!
+      // This means that tags and commit hashes are invalid.
+      // And if this isn't a short-term experiment or a competition emergency,
+      //   then someone on the software team is being very naughty!
+      DataLogManager.log("=========!!==!!==!!==!!==!!==!!=========");
+      DataLogManager.log("Software version: LOCALLY MODIFIED CODE");
+      DataLogManager.log("  originally based off branch " + gBranch +
+                         ", commit " + gCommit);
+      DataLogManager.log("=========!!==!!==!!==!!==!!==!!=========");
+    }
   }
 }
