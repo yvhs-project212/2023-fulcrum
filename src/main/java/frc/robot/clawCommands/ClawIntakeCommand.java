@@ -2,23 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.clawCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 
-public class SetArmAngleCommand extends CommandBase {
-  /** Creates a new SetArmAngleCommand. */
+public class ClawIntakeCommand extends CommandBase {
+  /** Creates a new ClawIntake. */
 
-  ArmSubsystem armSub;
-  double armAngle;
+  ClawSubsystem clawSub;
 
-  public SetArmAngleCommand(ArmSubsystem armSub, double armAngle) {
+  public ClawIntakeCommand(ClawSubsystem clawSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.armSub = armSub;
-    this.armAngle = armAngle;
-    addRequirements(armSub);
+    this.clawSub = clawSub;
+    addRequirements(clawSub);
+
   }
 
   // Called when the command is initially scheduled.
@@ -28,12 +27,14 @@ public class SetArmAngleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSub.setArmAngleWithPID(armAngle);
+    clawSub.clawIntake();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    clawSub.clawRollersStop();
+  }
 
   // Returns true when the command should end.
   @Override

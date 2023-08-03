@@ -2,48 +2,42 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.armCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class MoveArmBackToDefaultPositionCommand extends CommandBase {
-  /** Creates a new SetArmToZeroCommand. */
+public class SetArmAngleCommand extends CommandBase {
+  /** Creates a new SetArmAngleCommand. */
 
   ArmSubsystem armSub;
-  public MoveArmBackToDefaultPositionCommand(ArmSubsystem armSub) {
+  double armAngle;
+
+  public SetArmAngleCommand(ArmSubsystem armSub, double armAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
+
     this.armSub = armSub;
+    this.armAngle = armAngle;
     addRequirements(armSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    System.out.println("SetArmToZeroStarted");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSub.setArmAngleWithPID(15);
+    armSub.setArmAngleWithPID(armAngle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    armSub.armMotor.set(0);
-    System.out.println("Set Arm To Zero Ended");
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((armSub.armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE) >= -7 && (armSub.armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE) <= 7){
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }

@@ -2,19 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.autonomousCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class ClawOuttakeThenBackupCommand extends CommandBase {
-  /** Creates a new ClawOuttakeThenBackupCommand. */
-  public ClawOuttakeThenBackupCommand() {
+public class NoAutoCommand extends CommandBase {
+  /** Creates a new EmptyCommand. */
+
+  DrivetrainSubsystem drivetrainSub;
+
+  public NoAutoCommand(DrivetrainSubsystem drivetrainSub) {
     // Use addRequirements() here to declare subsystem dependencies.
+
+    this.drivetrainSub = drivetrainSub;
+    addRequirements(drivetrainSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    drivetrainSub.gearShiftHigh();
+    drivetrainSub.resetDrivetrainEncoders();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

@@ -2,22 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.clawCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClawSubsystem;
 
-public class ClawIntakeCommand extends CommandBase {
-  /** Creates a new ClawIntake. */
-
-  ClawSubsystem clawSub;
-
-  public ClawIntakeCommand(ClawSubsystem clawSub) {
+public class ClawOuttakeThenBackupCommand extends CommandBase {
+  /** Creates a new ClawOuttakeThenBackupCommand. */
+  public ClawOuttakeThenBackupCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    this.clawSub = clawSub;
-    addRequirements(clawSub);
-
   }
 
   // Called when the command is initially scheduled.
@@ -26,15 +18,11 @@ public class ClawIntakeCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    clawSub.clawIntake();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    clawSub.clawRollersStop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

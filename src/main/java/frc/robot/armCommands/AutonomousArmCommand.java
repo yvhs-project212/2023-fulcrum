@@ -2,53 +2,57 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.armCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.NavxSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
-public class DriveOnRampCommand extends CommandBase {
-  /** Creates a new DriveOnRamp. */
+public class AutonomousArmCommand extends CommandBase {
+  /** Creates a new AutonomousArmCommand. */
 
+  ArmSubsystem armSub;
   DrivetrainSubsystem drivetrainSub;
-  NavxSubsystem navxSub;
+  ElevatorSubsystem elevatorSub;
 
-
-  public DriveOnRampCommand(DrivetrainSubsystem drivetrainSub,NavxSubsystem navxSub) {
+  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
+    this.armSub = armSub;
     this.drivetrainSub = drivetrainSub;
-    this.navxSub = navxSub;
-
-    addRequirements(drivetrainSub);
+    this.elevatorSub = elevatorSub;
+    addRequirements(armSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Drive On ramp started");
+    drivetrainSub.gearShiftHigh();
+    armSub.resetArmEncoder();
+    elevatorSub.resetElevatorEncoderValue();
+    drivetrainSub.resetDrivetrainEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSub.driveForward(-0.2);
+    armSub.setArmAngleWithPID(Constants.ArmConstants.AUTONOMOUS_ARM_SETPOINT);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrainSub.driveForward(0);
-    System.out.println("Drive On ramp ended");
+    armSub.armMotor.set(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (navxSub.getPitch() > 5) {
+    if(armSub.positiveArmError <= 5){
       return true;
-    } else {
+    } else{
       return false;
     }
   }
