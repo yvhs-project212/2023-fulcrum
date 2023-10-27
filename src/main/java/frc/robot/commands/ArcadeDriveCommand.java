@@ -31,11 +31,11 @@ public class ArcadeDriveCommand extends CommandBase {
     if (DriverStation.getJoystickIsXbox(1)){
       double leftTrigger = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_TRIGGER));
       double rightTrigger = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_TRIGGER));
-      double leftXAxis = -(RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_X_AXIS));
+      double leftXAxis = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_X_AXIS));
       drivetrainSub.driveWithJoysticks(leftTrigger, rightTrigger, leftXAxis);
       } else {
       double mainThrottle = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.main_Axis));
-      double GleftXAxis = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.joystick_Axis));
+      double GleftXAxis = -(RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.joystick_Axis));
       drivetrainSub.driveWithJoysticksGP(mainThrottle, GleftXAxis);
       }
   }
