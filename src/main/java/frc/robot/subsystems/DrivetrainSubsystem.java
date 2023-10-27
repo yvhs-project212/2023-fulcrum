@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -55,6 +56,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public boolean turnAndLeaveCommunity;
   public boolean turnAndLeaveCommunityFinished;
 
+  //values for driver station
+  public int station;
+  DriverStation.Alliance color;
+  public boolean allianceColor;
+  public double time;
+  public double matchNumber;
+  DriverStation.MatchType matchType;
+  String trueMatchType;
+  
+
 
   public DrivetrainSubsystem() {
 
@@ -91,6 +102,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //Created differential drive by using left motors and right motors.
     diffDrive = new DifferentialDrive(leftMotorGroup, rightMotorGroup);
     diffDrive.setSafetyEnabled(false);
+
+    //values for driver station
+    station = DriverStation.getLocation();
+    color = DriverStation.getAlliance();
+    time = DriverStation.getMatchTime();
+    matchNumber = DriverStation.getMatchNumber();
+    matchType = DriverStation.getMatchType();
+    trueMatchType = matchType.toString();
   }
 
   @Override
@@ -114,7 +133,26 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Recent position", recentPosition);
     SmartDashboard.putBoolean("turning boolean", turnAndLeaveCommunity);
     SmartDashboard.putNumber("final position", finalPosition);
+    
+    if (color == DriverStation.Alliance.Blue){
+      allianceColor = true;
+    } else if (color == DriverStation.Alliance.Red){
+      allianceColor = false;
+    }
 
+    SmartDashboard.putBoolean("Alliance Color", allianceColor);
+    SmartDashboard.putNumber("Team Station", station);
+    SmartDashboard.putNumber("Match Time", time);
+    SmartDashboard.putNumber("Match Number", matchNumber);
+    SmartDashboard.putString("Match Type", trueMatchType);
+
+  }
+
+  public void driveWithJoysticksGP(double mainThrottle, double turn){
+    double throttle = mainThrottle;
+    double forwardSpeed = throttle * 0.6;
+    double turnSpeed = turn * 0.6;
+    diffDrive.arcadeDrive(forwardSpeed, turnSpeed);
   }
 
   public void driveWithJoysticks(double leftThrottle, double rightThrottle, double turn){

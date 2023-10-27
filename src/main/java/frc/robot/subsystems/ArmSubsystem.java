@@ -48,6 +48,17 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.set(armSpeed * 0.5);
   }
 
+    
+  public void armWithJoystickGP(boolean armUp, boolean armDown) {
+    if (armUp) {
+      armMotor.set(0.4);
+    } else if (armDown) {
+      armMotor.set(-0.4);
+    } else {
+      armMotor.set(0);
+    }
+  }
+
   public double getArmAngle(){
     return (armMotorPos / Constants.ArmConstants.ENCODER_PER_DEGREE);
   }

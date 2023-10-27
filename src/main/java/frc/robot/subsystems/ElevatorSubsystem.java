@@ -8,9 +8,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ElevatorSubsystem. */
@@ -56,20 +58,68 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   //Move elevator by using joystick methods.
-  public void elevatorLiftWithJoystick(double elevatorSpeed){
+  public void elevatorLiftWithJoystickGP(boolean elevatorDown, boolean elevatorUp){
     elevatorMotor.set(0);
     if(upperLimitSwitch.get()){
-      if (elevatorSpeed < 0){
-        elevatorMotor.set(elevatorSpeed * 0.4);
+      if (bottomLimitSwitch.get() & upperLimitSwitch.get()) {
+        RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+        RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
       }
+      if (elevatorDown ){
+        elevatorMotor.set(-0.5);
+      }
+    } else {
+        RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 1);
+        RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 1);
     }
 
     if(bottomLimitSwitch.get()){
+      if (bottomLimitSwitch.get() & upperLimitSwitch.get()) {
+        RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+        RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
+      }
+      if(elevatorUp ){
+        elevatorMotor.set(0.5);
+      }
+    } else {
+      for (int i = 0; i <= 50; i++) {
+        RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 1);
+        RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 1);
+        System.out.println(i);
+      }
+    }
+
+  }
+  
+  public void elevatorLiftWithJoystick(double elevatorSpeed){
+    elevatorMotor.set(0);
+    if(upperLimitSwitch.get()){
+      if (bottomLimitSwitch.get() & upperLimitSwitch.get()) {
+        RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+        RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
+      }
+      if (elevatorSpeed < 0){
+        elevatorMotor.set(elevatorSpeed * 0.4);
+      }
+    } else {
+      RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 1);
+      RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 1);
+    }
+
+    if(bottomLimitSwitch.get()){
+      if (bottomLimitSwitch.get() & upperLimitSwitch.get()) {
+        RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+        RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
+      }
       if(elevatorSpeed > 0){
         elevatorMotor.set(elevatorSpeed * 0.4);
       }
+    } else {
+      RobotContainer.operatorController.setRumble(RumbleType.kRightRumble, 1);
+      RobotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 1);
     }
   }
+
 
   public void setElevatorWithBangBang(double elevatorSetpoint){
     if(getElevatorEncoderValueInInch() > elevatorSetpoint){

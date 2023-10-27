@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -29,12 +30,11 @@ public class ElevatorLiftWithjoystickCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.operatorController.getYButton()){
-      elevatorSub.elevatorLiftWithJoystick(Constants.ElevatorConstants.AUTO_ELEVATOR_MOTOR_UP_SPEED);
-    } else if(RobotContainer.operatorController.getBButton()){
-      elevatorSub.elevatorLiftWithJoystick(Constants.ElevatorConstants.AUTO_ELEVATOR_MOTOR_DOWN_SPEED);
-    } else {
+
+    if (DriverStation.getJoystickIsXbox(1)){
       elevatorSub.elevatorLiftWithJoystick(RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_Y_AXIS));
+    } else {
+      elevatorSub.elevatorLiftWithJoystickGP(RobotContainer.gamepadController.getRawButton(5), RobotContainer.gamepadController.getRawButton(6));
     }
   }
 

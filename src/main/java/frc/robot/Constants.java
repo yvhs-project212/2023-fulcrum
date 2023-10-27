@@ -85,15 +85,36 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
+    public static final int gamepad_Driver = 0;
     
     public static final class OperationBinds{
 
+      //Xbox Controller Values
       public static final int L_X_AXIS = 0;
       public static final int L_Y_AXIS = 1;
       public static final int L_TRIGGER = 2;
-      public static final int R_TRIGGER = 3;
+      public static final int R_TRIGGER = 3;  
       public static final int R_X_AXIS = 4;
       public static final int R_Y_AXIS = 5;
+
+      //driver gamepad values
+      public static final int H_Gear = 11;
+      public static final int L_Gear = 12;
+      public static final int main_Axis = 1; 
+      public static final int joystick_Axis = 0;
+
+      //operator gamepad values
+      public static final int claw_Open = 9;
+      public static final int claw_Close = 10;
+      public static final int claw_Intake = 3;
+      public static final int claw_OutTake = 4;
+
+      //all 4 values arent actually used to changed input value check elevatorLiftWithJoystickCommand & ArmCommands -Jhony :)
+      public static final int elevator_Up = 5;
+      public static final int elevator_Down = 6;
+
+      public static final int arm_Up = 7;
+      public static final int arm_Down = 8;
     }
   }
 
