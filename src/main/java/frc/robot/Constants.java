@@ -73,7 +73,7 @@ public final class Constants {
     public static final double ARM_kP = 0.011;
     public static final double ARM_kI = 0.00002;
     
-    public static final double AUTONOMOUS_ARM_SETPOINT = -25;
+    public static final double AUTONOMOUS_ARM_SETPOINT = -30;
     public static final double HUMAN_PLAYER_ARM_SETPOINT = -40;
     public static final double GROUND_LEVEL_ARM_SETPOINT = -65;
 

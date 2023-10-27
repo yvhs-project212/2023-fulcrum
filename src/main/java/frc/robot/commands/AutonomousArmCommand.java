@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -16,6 +17,7 @@ public class AutonomousArmCommand extends CommandBase {
   ArmSubsystem armSub;
   DrivetrainSubsystem drivetrainSub;
   ElevatorSubsystem elevatorSub;
+  ClawSubsystem clawSub;
 
   public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,16 +25,19 @@ public class AutonomousArmCommand extends CommandBase {
     this.armSub = armSub;
     this.drivetrainSub = drivetrainSub;
     this.elevatorSub = elevatorSub;
+    this.clawSub = clawSub;
     addRequirements(armSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    clawSub.clawOpen();
     drivetrainSub.gearShiftHigh();
     armSub.resetArmEncoder();
     elevatorSub.resetElevatorEncoderValue();
     drivetrainSub.resetDrivetrainEncoders();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
