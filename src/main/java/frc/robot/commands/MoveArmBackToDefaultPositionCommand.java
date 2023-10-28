@@ -27,7 +27,7 @@ public class MoveArmBackToDefaultPositionCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSub.setArmAngleWithPID(15);
+    armSub.setArmAngleWithPID(30);
   }
 
   // Called once the command ends or is interrupted.
