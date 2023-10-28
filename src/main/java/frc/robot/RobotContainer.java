@@ -114,48 +114,52 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
 
-    //Claw Binds with gamepad
-    //Claw Intake
-    final JoystickButton claw_Intake = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Intake);
-    claw_Intake.whileTrue(clawIntakeComm);
-    //Claw Open
-    final JoystickButton claw_Open = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Open);
-    claw_Open.whileTrue(clawOpenComm);
-    //Claw Close
-    final JoystickButton claw_Close = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Close);
-    claw_Close.whileTrue(clawCloseComm);
-    //Claw Rollers Outtake
-    final JoystickButton claw_Rollers_Outtake = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_OutTake);
-    claw_Rollers_Outtake.whileTrue(clawRollersOuttakeComm);
-    
-    //Drivetrain Binds with gamepad
-    //Drivetrain Gear Shift High with gamepad
-    final JoystickButton gear_Shif_tHigh = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.H_Gear);
-    gear_Shif_tHigh.whileTrue(gearShiftHighComm);
-    //Drivetrain Gear Shift Low
-    final JoystickButton gear_Shift_Low = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.L_Gear);
-    gear_Shift_Low.whileTrue(gearShiftLowComm);
-
 
     //Claw Binds with Xbox controller
-    final JoystickButton clawIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
-    clawIntake.whileTrue(clawIntakeComm);
-    //Claw Open
-    final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kX.value);
-    clawOpen.whileTrue(clawOpenComm);
-    //Claw Close
-    final JoystickButton clawClose = new JoystickButton(operatorController, XboxController.Button.kA.value);
-    clawClose.whileTrue(clawCloseComm);
-    //Claw Rollers Outtake
-    final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
-    clawRollersOuttake.whileTrue(clawRollersOuttakeComm);
+    if (DriverStation.getJoystickIsXbox(0) == true && DriverStation.getJoystickIsXbox(1) == true){
+      
+      final JoystickButton clawIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
+      clawIntake.whileTrue(clawIntakeComm);
+      //Claw Open
+      final JoystickButton clawOpen = new JoystickButton(operatorController, XboxController.Button.kX.value);
+      clawOpen.whileTrue(clawOpenComm);
+      //Claw Close
+      final JoystickButton clawClose = new JoystickButton(operatorController, XboxController.Button.kA.value);
+      clawClose.whileTrue(clawCloseComm);
+      //Claw Rollers Outtake
+      final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
+      clawRollersOuttake.whileTrue(clawRollersOuttakeComm);
 
-    //Drivetrain Binds with Xbox controller
-    final JoystickButton gearShiftHigh = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
-    gearShiftHigh.whileTrue(gearShiftHighComm);
-    //Drivetrain Gear Shift Low
-    final JoystickButton gearShiftLow = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
-    gearShiftLow.whileTrue(gearShiftLowComm);
+      //Drivetrain Binds with Xbox controller
+      /*final JoystickButton gearShiftHigh = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+      gearShiftHigh.whileTrue(gearShiftHighComm);
+      //Drivetrain Gear Shift Low
+      final JoystickButton gearShiftLow = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+      gearShiftLow.whileTrue(gearShiftLowComm);*/
+    } else {
+      
+      //Claw Binds with gamepad
+      //Claw Intake
+      final JoystickButton claw_Intake = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Intake);
+      claw_Intake.whileTrue(clawIntakeComm);
+      //Claw Open
+      final JoystickButton claw_Open = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Open);
+      claw_Open.whileTrue(clawOpenComm);
+      //Claw Close
+      final JoystickButton claw_Close = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Close);
+      claw_Close.whileTrue(clawCloseComm);
+      //Claw Rollers Outtake
+      final JoystickButton claw_Rollers_Outtake = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_OutTake);
+      claw_Rollers_Outtake.whileTrue(clawRollersOuttakeComm);
+    
+      //Drivetrain Binds with gamepad
+      //Drivetrain Gear Shift High with gamepad
+      /*final JoystickButton gear_Shif_tHigh = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.H_Gear);
+      gear_Shif_tHigh.whileTrue(gearShiftHighComm);
+      //Drivetrain Gear Shift Low
+      final JoystickButton gear_Shift_Low = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.L_Gear);
+      gear_Shift_Low.whileTrue(gearShiftLowComm);*/
+    }
   }
 
   /**

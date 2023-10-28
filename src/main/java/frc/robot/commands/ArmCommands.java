@@ -29,7 +29,7 @@ public class ArmCommands extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (DriverStation.isJoystickConnected(0) && DriverStation.isJoystickConnected(1)) {
+    /*if (DriverStation.isJoystickConnected(0) && DriverStation.isJoystickConnected(1)) {
       if (DriverStation.getJoystickIsXbox(1) && DriverStation.getJoystickIsXbox(0)) {
         arm.armWithJoystick(-RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_Y_AXIS));
       } else if (DriverStation.getJoystickIsXbox(0) && DriverStation.getJoystickName(1) == "Generic USB Joystick") {
@@ -41,6 +41,12 @@ public class ArmCommands extends CommandBase {
       } else if (DriverStation.getJoystickName(0) == "Generic USB Joystick"){
         arm.armWithJoystickGP(RobotContainer.gamepadController.getRawButton(7), RobotContainer.gamepadController.getRawButton(8));
       }
+    }*/
+
+    if (DriverStation.getJoystickIsXbox(1) == true){
+      arm.armWithJoystick(-RobotContainer.operatorController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_Y_AXIS));
+    } else if (DriverStation.getJoystickIsXbox(1) == false){
+      arm.armWithJoystickGP(RobotContainer.gamepadController.getRawButton(7), RobotContainer.gamepadController.getRawButton(8));
     }
   }
   // Called once the command ends or is interrupted.
