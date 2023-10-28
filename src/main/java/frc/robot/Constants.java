@@ -86,6 +86,7 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
     public static final int gamepad_Driver = 0;
+    public static final int GAM_PAD_OP = 1;
     
     public static final class OperationBinds{
 

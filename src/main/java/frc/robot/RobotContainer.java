@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -45,6 +46,7 @@ public class RobotContainer {
   public static XboxController driverController = new XboxController(Constants.OperatorConstants.DRIVER_CONTROLLER_PORT);
   public static XboxController operatorController = new XboxController(Constants.OperatorConstants.OPERATOR_CONTROLLER_PORT);
   public static GenericHID gamepadController = new GenericHID(Constants.OperatorConstants.gamepad_Driver);
+  public static GenericHID gamPadOperator = new GenericHID(Constants.OperatorConstants.GAM_PAD_OP);
 
   // Drivetrain Files
   private final DrivetrainSubsystem drivetrainSub = new DrivetrainSubsystem();
@@ -109,24 +111,31 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-  
-
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
 
     //Claw Binds with gamepad
     //Claw Intake
-    final JoystickButton claw_Intake = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.claw_Intake);
+    final JoystickButton claw_Intake = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Intake);
     claw_Intake.whileTrue(clawIntakeComm);
     //Claw Open
-    final JoystickButton claw_Open = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.claw_Open);
+    final JoystickButton claw_Open = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Open);
     claw_Open.whileTrue(clawOpenComm);
     //Claw Close
-    final JoystickButton claw_Close = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.claw_Close);
+    final JoystickButton claw_Close = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_Close);
     claw_Close.whileTrue(clawCloseComm);
     //Claw Rollers Outtake
-    final JoystickButton claw_Rollers_Outtake = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.claw_OutTake);
+    final JoystickButton claw_Rollers_Outtake = new JoystickButton(gamPadOperator, Constants.OperatorConstants.OperationBinds.claw_OutTake);
     claw_Rollers_Outtake.whileTrue(clawRollersOuttakeComm);
+    
+    //Drivetrain Binds with gamepad
+    //Drivetrain Gear Shift High with gamepad
+    final JoystickButton gear_Shif_tHigh = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.H_Gear);
+    gear_Shif_tHigh.whileTrue(gearShiftHighComm);
+    //Drivetrain Gear Shift Low
+    final JoystickButton gear_Shift_Low = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.L_Gear);
+    gear_Shift_Low.whileTrue(gearShiftLowComm);
+
 
     //Claw Binds with Xbox controller
     final JoystickButton clawIntake = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
@@ -140,15 +149,6 @@ public class RobotContainer {
     //Claw Rollers Outtake
     final JoystickButton clawRollersOuttake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
     clawRollersOuttake.whileTrue(clawRollersOuttakeComm);
-
-
-    //Drivetrain Binds with gamepad
-    //Drivetrain Gear Shift High with gamepad
-    final JoystickButton gear_Shif_tHigh = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.H_Gear);
-    gear_Shif_tHigh.whileTrue(gearShiftHighComm);
-    //Drivetrain Gear Shift Low
-    final JoystickButton gear_Shift_Low = new JoystickButton(gamepadController, Constants.OperatorConstants.OperationBinds.L_Gear);
-    gear_Shift_Low.whileTrue(gearShiftLowComm);
 
     //Drivetrain Binds with Xbox controller
     final JoystickButton gearShiftHigh = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);

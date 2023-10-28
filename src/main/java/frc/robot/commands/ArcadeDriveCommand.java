@@ -28,7 +28,7 @@ public class ArcadeDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (DriverStation.getJoystickIsXbox(1)){
+    if (DriverStation.getJoystickIsXbox(Constants.OperatorConstants.DRIVER_CONTROLLER_PORT)){
       double leftTrigger = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_TRIGGER));
       double rightTrigger = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.R_TRIGGER));
       double leftXAxis = (RobotContainer.driverController.getRawAxis(Constants.OperatorConstants.OperationBinds.L_X_AXIS));
