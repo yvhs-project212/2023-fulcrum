@@ -19,7 +19,7 @@ public class AutonomousArmCommand extends CommandBase {
   ElevatorSubsystem elevatorSub;
   ClawSubsystem clawSub;
 
-  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub) {
+  public AutonomousArmCommand(ArmSubsystem armSub, DrivetrainSubsystem drivetrainSub, ElevatorSubsystem elevatorSub, ClawSubsystem clawSub) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.armSub = armSub;
@@ -55,7 +55,7 @@ public class AutonomousArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(armSub.positiveArmError <= 5){
+    if(armSub.positiveArmError <= 3){
       return true;
     } else{
       return false;

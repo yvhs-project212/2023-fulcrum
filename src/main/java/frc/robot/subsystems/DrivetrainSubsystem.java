@@ -138,7 +138,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public void chargingStationBalancingWithPID(double kP, double kD, double pitchError){
     double timeChanges = Timer.getFPGATimestamp() - lastTimestamp;
     double errorRate = (pitchError - lastError) / timeChanges;
-    double motorOutput = MathUtil.clamp((kP * pitchError + kD * errorRate), -0.12, 0.19);
+    double motorOutput = MathUtil.clamp((kP * pitchError + kD * errorRate), -0.12, 0.175);
     leftMotorGroup.set(motorOutput);
     rightMotorGroup.set(motorOutput * 0.95);
     lastTimestamp = Timer.getFPGATimestamp();
