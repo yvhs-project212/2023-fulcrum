@@ -20,7 +20,7 @@ public class ShootACubeThenBackupCommandGroup extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //new AutoCubeShootingCommandGroup(armSub, drivetrainSub, clawSub, elevatorSub),
-      new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub),
+      new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub,clawSub),
       new AutonomousClawOuttakeCommand(clawSub, armSub),
       new MoveArmBackToDefaultPositionCommand(armSub),
       new DriveBackwardPerInch(drivetrainSub, -140, -0.4)

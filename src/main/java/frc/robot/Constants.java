@@ -29,8 +29,8 @@ public final class Constants {
     public static final double DRIVE_BACKWARDS_SPEED = 0.25;
     public static final double DRIVE_TO_THE_RAMP_SPEED = 0.35;
     public static final double DRIVE_SLOWLY_SPEED = 0.15;
-    public static final double DRIVE_UP_THE_RAMP_kP = 0.01245;
-    public static final double DRIVE_UP_THE_RAMP_kD = 0.005;
+    public static final double DRIVE_UP_THE_RAMP_kP = 0.012;
+    public static final double DRIVE_UP_THE_RAMP_kD = 0.0052;
 
     public static final int GEAR_SHIFTER_SOLENOID = 0;
 
@@ -73,7 +73,8 @@ public final class Constants {
     public static final double ARM_kP = 0.011;
     public static final double ARM_kI = 0.00002;
     
-    public static final double AUTONOMOUS_ARM_SETPOINT = -25;
+    public static final double AUTONOMOUS_ARM_SETPOINT = -15;
+    public static final double AUTONOMOUS_MOVE_ARM_BACK_SETPOINT = 15;
     public static final double HUMAN_PLAYER_ARM_SETPOINT = -40;
     public static final double GROUND_LEVEL_ARM_SETPOINT = -65;
 

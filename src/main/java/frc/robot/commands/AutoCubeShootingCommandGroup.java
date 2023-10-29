@@ -19,7 +19,7 @@ public class AutoCubeShootingCommandGroup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub),
+      new AutonomousArmCommand(armSub, drivetrainSub, elevatorSub, clawSub),
       new AutonomousClawOuttakeCommand(clawSub, armSub)
       //new MoveArmBackToDefaultPositionCommand(armSub)
     );
